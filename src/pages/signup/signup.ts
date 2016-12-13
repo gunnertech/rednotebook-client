@@ -1,10 +1,17 @@
 import { Component } from '@angular/core';
 import { NavController, LoadingController, AlertController } from 'ionic-angular';
 import {Validators, FormBuilder, FormGroup } from '@angular/forms';
+
+
 import { Auth } from '../../providers/auth';
-import { ValidationService } from '../../providers/validation.service';
+import { StateService } from '../../providers/state.service';
+
+import { State } from '../../models/state.model';
+
+
 import { TabsPage } from '../tabs/tabs';
 import { LoginPage } from '../login/login';
+import { SecretTokenPage } from '../secret-token/secret-token';
 
 @Component({
   selector: 'page-signup',
@@ -16,14 +23,24 @@ export class SignupPage {
 	password: string;
 	username: string;
 	loading: any;
-	user: FormGroup;
+	userFormGroup: FormGroup;
+	state: string;
+	states: State[];
+  errorMessage: string;
 
-  constructor(private formBuilder: FormBuilder, public navCtrl: NavController, public authService: Auth, public loadingCtrl: LoadingController, public alertCtrl: AlertController) {
-  	this.user = this.formBuilder.group({
+  constructor(private stateService: StateService, private formBuilder: FormBuilder, public navCtrl: NavController, public authService: Auth, public loadingCtrl: LoadingController, public alertCtrl: AlertController) {
+  	this.userFormGroup = this.formBuilder.group({
   	  username: ['', [Validators.required, Validators.minLength(4)]],
   	  email: ['', [Validators.required]],
+  	  state: ['', [Validators.required]],
   	  password: ['', [Validators.required, Validators.minLength(8)]]
   	});
+
+  	stateService.query()
+      .subscribe(
+			  states => this.states = states,
+        error =>  this.errorMessage = <any>error
+  	  )
   }
 
   ionViewDidLoad() {
@@ -36,7 +53,13 @@ export class SignupPage {
     this.authService.checkAuthentication().then((res) => {
 	    console.log("Already authorized");
 	    this.loading.dismiss();
-	    this.navCtrl.setRoot(TabsPage);
+      this.authService.checkSecretToken().then((res) => {
+        if(res) {
+          this.navCtrl.setRoot(TabsPage);
+        } else {
+          this.navCtrl.setRoot(SecretTokenPage);
+        }
+      });
     }, (err) => {
       console.log("Not already authorized");
       this.loading.dismiss();
@@ -49,18 +72,17 @@ export class SignupPage {
   	let details = {
   		email: this.email,
   		password: this.password,
-  		username: this.username
+  		username: this.username,
+  		state: this.state
   	};
 
   	this.authService.createAccount(details)
   	.then((result) => {
   		this.loading.dismiss();
-  		console.log(result);
-  		this.navCtrl.setRoot(TabsPage);
-
+      this.showWelcomeAlert();
   	}, (err) => {
   		this.loading.dismiss();
-  		this.showAlert(err.message);
+  		this.showLoginAlert(err.message);
   	});
   }
 
@@ -68,11 +90,35 @@ export class SignupPage {
 		this.navCtrl.push(LoginPage);
   }
 
-  showAlert(message) {
+  showLoginAlert(message) {
     let alert = this.alertCtrl.create({
       title: 'Whooops...',
       subTitle: message,
       buttons: ['OK']
+    });
+    alert.present();
+  }
+
+  showWelcomeAlert() {
+    let alert = this.alertCtrl.create({
+      title: 'Account Created!',
+      subTitle: `
+      <p>Your account has been created, and you're ready to start filling in your notebook.</p>
+       
+      <p>When you close this screen, you will be asked for your personal passcode to protect your data.</p>
+       
+      <p>The top of every page page contains the navigation for your notebook as well as an indicator of how many documents you have left to fill out. Click this at any time to fill in documents that are incomplete. </p>
+       
+      <p>The mail icon will alert you when you have new notifications. Just click the icon to see all your notifications.</p>
+      `,
+      buttons: [
+        {
+          text: "Let's Get Started!",
+          handler: data => {
+            this.navCtrl.setRoot(SecretTokenPage);
+          }
+        }
+      ]
     });
     alert.present();
   }

@@ -20,10 +20,10 @@ export class MyApp {
   rootPage = SignupPage;
 
   pages = [
-    {title: "Home", component: HomePage, tabNum: 0},
-    {title: "About", component: AboutPage, tabNum: 1},
-    {title: "Contact", component: ContactPage, tabNum: 2},
-    {title: "Contact Raw", component: ContactPage},
+    // {title: "Home", component: HomePage, tabNum: 0},
+    // {title: "About", component: AboutPage, tabNum: 1},
+    // {title: "Contact", component: ContactPage, tabNum: 2},
+    // {title: "Contact Raw", component: ContactPage},
     {title: "Log Out", action: 'logout'}
   ];
 

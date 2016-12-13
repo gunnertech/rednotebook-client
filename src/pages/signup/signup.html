@@ -8,21 +8,38 @@
 
 
 <ion-content>
+
   <ion-row>
     <ion-col>
-      <img src="http://placehold.it/700x150?text=Logo%20Goes%20Here">
+      <img src="http://placehold.it/2400x350?text=Logo%20Goes%20Here">
     </ion-col>
   </ion-row>
-  <ion-row padding>
+
+  <ion-row>
     <ion-col>
-      <p>The Red Notebook is your guide to when chaos happens. Insert a few more lines of welcome text here. The best part is, you can try it out for a month free and after that, it's only $0.99 a month.</p>
-       
-      <p>Getting started is simple, and we'll walk you through it in three simple steps.</p>
+      <ion-card>
+        <ion-card-header>
+          Your guide when chaos happens.
+        </ion-card-header>
+        <ion-card-content>
+          <p>Insert a few more lines of welcome text here.</p>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card>
+        <ion-card-header>
+          Free for 30 days!
+        </ion-card-header>
+        <ion-card-content>
+          <p>Getting started is simple. We'll walk you through it step-by-step, you'll have a 30-day free trial after that! After your free trial, access to your notebook is only $0.99 a month.</p>
+        </ion-card-content>
+      </ion-card>
+      
     </ion-col>
   </ion-row>
   <ion-row class="account-form">
     <ion-col>
-      <form [formGroup]="user" (ngSubmit)="register()">
+      <form [formGroup]="userFormGroup" (ngSubmit)="register()">
         <ion-list inset>
         
           <ion-item>
@@ -39,8 +56,15 @@
             <ion-label><ion-icon name="lock"></ion-icon></ion-label>
             <ion-input formControlName="password" [(ngModel)]="password" placeholder="Password" type="password"></ion-input>
           </ion-item>
+
+          <ion-item>
+            <ion-label>Current State of Residence</ion-label>
+            <ion-select formControlName="state" [(ngModel)]="state">
+              <ion-option *ngFor="let state of states" [value]="state._id">{{state.name}}</ion-option>
+            </ion-select>
+          </ion-item>
         </ion-list>
-        <button ion-button full type="submit" [disabled]="!user.valid">Let's Get Started</button>
+        <button ion-button full type="submit" [disabled]="!userFormGroup.valid">Register</button>
       </form>
 
     </ion-col>

@@ -12,7 +12,7 @@ export class Auth {
  
   }
  
-  checkAuthentication(){
+  checkAuthentication() {
  
     return new Promise((resolve, reject) => {
  
@@ -35,6 +35,18 @@ export class Auth {
  
     });
  
+  }
+
+  checkSecretToken() {
+    return new Promise((resolve, reject) => {
+      this.storage.get('secretToken').then((value) => {
+        resolve(value);
+      });
+    });
+  }
+
+  setSecretToken(token) {
+    this.storage.set('secretToken', token);
   }
  
   createAccount(details) {
