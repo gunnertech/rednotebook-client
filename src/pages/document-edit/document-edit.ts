@@ -30,7 +30,11 @@ export class DocumentEditPage {
   ionViewDidLoad() {
     this.documentService.get(this.navParams.get('documentId'))
       .subscribe(
-      	(document) => {this.document = document; this.document.partId = document.part._id; console.log(this.document); },
+      	(document) => {
+      		this.document = document; 
+      		this.document.partId = document.part._id;
+      		this.document.stateId = document.state._id;
+      	},
         error =>  this.errorMessage = <any>error
       );
 
@@ -51,8 +55,8 @@ export class DocumentEditPage {
 
   saveDocument() {
   	this.document.part = this.document.partId;
-  	delete this.document.partId;
-  	console.log(this.document.part);
+  	this.document.state = this.document.stateId;
+  	
   	this.documentService.save(this.document)
 	  	.subscribe(
 	  		document => this.navController.pop(),

@@ -5,11 +5,11 @@ import 'rxjs/add/operator/map';
 
 import { Storage } from '@ionic/storage';
 
-import { Assignment } from '../models/assignment.model';
+import { Notification } from '../models/notification.model';
 
 
 @Injectable()
-export class AssignmentService {
+export class NotificationService {
 
   constructor(public http: Http, private storage: Storage) { }
 
@@ -26,7 +26,6 @@ export class AssignmentService {
   }
 
   private handleError (error: Response | any) {
-      // In a real world app, we might use a remote logging infrastructure
     let errMsg: string;
     if (error instanceof Response) {
       const body = error.json() || '';
@@ -39,32 +38,32 @@ export class AssignmentService {
     return Observable.throw(errMsg);
   }
 
-  get(assignmentId: string): Observable<Assignment> {
+  get(notificationId: string): Observable<Notification> {
 
     return Observable
       .fromPromise(this.buildHeaders())
-      .switchMap((headers) => this.http.get(`/api/assignment/${assignmentId}`, { headers: headers }))
-      .map(res => <Assignment>res.json())
+      .switchMap((headers) => this.http.get(`/api/notification/${notificationId}`, { headers: headers }))
+      .map(res => <Notification>res.json())
       .catch(this.handleError);
   }
 
-  save(assignment: Assignment): Observable<Assignment> {
+  save(notification: Notification): Observable<Notification> {
 
-    let url = assignment._id ? `/api/assignment/${assignment._id}` : '/api/assignment';
+    let url = notification._id ? `/api/notification/${notification._id}` : '/api/notification';
 
   	return Observable
 			.fromPromise(this.buildHeaders())
-  		.switchMap((headers) => (assignment._id ? this.http.put(url, assignment, { headers: headers }) : this.http.post(url, assignment, { headers: headers })))
-  		.map(res => <Assignment>res.json())
+  		.switchMap((headers) => (notification._id ? this.http.put(url, notification, { headers: headers }) : this.http.post(url, notification, { headers: headers })))
+  		.map(res => <Notification>res.json())
   		.catch(this.handleError);
 
   }
 
-  delete(assignment: Assignment | any): Observable<any> {
+  delete(notification: Notification | any): Observable<any> {
 
     return Observable
       .fromPromise(this.buildHeaders())
-      .switchMap((headers) => this.http.delete(`/api/assignment/${(assignment._id || assignment)}`, { headers: headers }) )
+      .switchMap((headers) => this.http.delete(`/api/notification/${(notification._id || notification)}`, { headers: headers }) )
       .map(res => <any>res.json())
       .catch(this.handleError);
 

@@ -5,11 +5,11 @@ import 'rxjs/add/operator/map';
 
 import { Storage } from '@ionic/storage';
 
-import { Assignment } from '../models/assignment.model';
+import { Input } from '../models/input.model';
 
 
 @Injectable()
-export class AssignmentService {
+export class InputService {
 
   constructor(public http: Http, private storage: Storage) { }
 
@@ -39,32 +39,32 @@ export class AssignmentService {
     return Observable.throw(errMsg);
   }
 
-  get(assignmentId: string): Observable<Assignment> {
+  get(inputId: string): Observable<Input> {
 
     return Observable
       .fromPromise(this.buildHeaders())
-      .switchMap((headers) => this.http.get(`/api/assignment/${assignmentId}`, { headers: headers }))
-      .map(res => <Assignment>res.json())
+      .switchMap((headers) => this.http.get(`/api/input/${inputId}`, { headers: headers }))
+      .map(res => <Input>res.json())
       .catch(this.handleError);
   }
 
-  save(assignment: Assignment): Observable<Assignment> {
+  save(input: Input): Observable<Input> {
 
-    let url = assignment._id ? `/api/assignment/${assignment._id}` : '/api/assignment';
+    let url = input._id ? `/api/input/${input._id}` : '/api/input';
 
   	return Observable
 			.fromPromise(this.buildHeaders())
-  		.switchMap((headers) => (assignment._id ? this.http.put(url, assignment, { headers: headers }) : this.http.post(url, assignment, { headers: headers })))
-  		.map(res => <Assignment>res.json())
+  		.switchMap((headers) => (input._id ? this.http.put(url, input, { headers: headers }) : this.http.post(url, input, { headers: headers })))
+  		.map(res => <Input>res.json())
   		.catch(this.handleError);
 
   }
 
-  delete(assignment: Assignment | any): Observable<any> {
+  delete(input: Input | any): Observable<any> {
 
     return Observable
       .fromPromise(this.buildHeaders())
-      .switchMap((headers) => this.http.delete(`/api/assignment/${(assignment._id || assignment)}`, { headers: headers }) )
+      .switchMap((headers) => this.http.delete(`/api/input/${(input._id || input)}`, { headers: headers }) )
       .map(res => <any>res.json())
       .catch(this.handleError);
 

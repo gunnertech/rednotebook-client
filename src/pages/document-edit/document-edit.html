@@ -25,7 +25,7 @@
 
 	  <ion-item>
 	    <ion-label>State</ion-label>
-	    <ion-select [(ngModel)]="document.state">
+	    <ion-select [(ngModel)]="document.stateId">
 	      <ion-option [value]="null">Not Applicable</ion-option>
 	      <ion-option *ngFor="let state of states" [value]="state._id">{{state.name}}</ion-option>
 	    </ion-select>
@@ -39,7 +39,7 @@
 	  <ion-item>
 	    <ion-label>Order</ion-label>
 	    <ion-select [(ngModel)]="document.position">
-	      <ion-option *ngFor="let document of part?.documents" [value]="index">{{index}}</ion-option>
+	      <ion-option *ngFor="let document of document.part?.documents; let i = index" [value]="i+1">{{i+1}}</ion-option>
 	    </ion-select>
 	  </ion-item>
 

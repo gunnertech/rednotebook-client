@@ -5,11 +5,11 @@ import 'rxjs/add/operator/map';
 
 import { Storage } from '@ionic/storage';
 
-import { Assignment } from '../models/assignment.model';
+import { Section } from '../models/section.model';
 
 
 @Injectable()
-export class AssignmentService {
+export class SectionService {
 
   constructor(public http: Http, private storage: Storage) { }
 
@@ -39,32 +39,32 @@ export class AssignmentService {
     return Observable.throw(errMsg);
   }
 
-  get(assignmentId: string): Observable<Assignment> {
+  get(sectionId: string): Observable<Section> {
 
     return Observable
       .fromPromise(this.buildHeaders())
-      .switchMap((headers) => this.http.get(`/api/assignment/${assignmentId}`, { headers: headers }))
-      .map(res => <Assignment>res.json())
+      .switchMap((headers) => this.http.get(`/api/section/${sectionId}`, { headers: headers }))
+      .map(res => <Section>res.json())
       .catch(this.handleError);
   }
 
-  save(assignment: Assignment): Observable<Assignment> {
+  save(section: Section): Observable<Section> {
 
-    let url = assignment._id ? `/api/assignment/${assignment._id}` : '/api/assignment';
+    let url = section._id ? `/api/section/${section._id}` : '/api/section';
 
   	return Observable
 			.fromPromise(this.buildHeaders())
-  		.switchMap((headers) => (assignment._id ? this.http.put(url, assignment, { headers: headers }) : this.http.post(url, assignment, { headers: headers })))
-  		.map(res => <Assignment>res.json())
+  		.switchMap((headers) => (section._id ? this.http.put(url, section, { headers: headers }) : this.http.post(url, section, { headers: headers })))
+  		.map(res => <Section>res.json())
   		.catch(this.handleError);
 
   }
 
-  delete(assignment: Assignment | any): Observable<any> {
+  delete(section: Section | any): Observable<any> {
 
     return Observable
       .fromPromise(this.buildHeaders())
-      .switchMap((headers) => this.http.delete(`/api/assignment/${(assignment._id || assignment)}`, { headers: headers }) )
+      .switchMap((headers) => this.http.delete(`/api/section/${(section._id || section)}`, { headers: headers }) )
       .map(res => <any>res.json())
       .catch(this.handleError);
 

@@ -22,6 +22,12 @@ import { DocumentShowPage } from '../pages/document-show/document-show';
 import { PartNewPage } from '../pages/part-new/part-new';
 import { PartEditPage } from '../pages/part-edit/part-edit';
 
+import { SectionNewPage } from '../pages/section-new/section-new';
+
+import { InputEditPage } from '../pages/input-edit/input-edit';
+
+import { NotificationIndexPage } from '../pages/notification-index/notification-index';
+
 
 
 ////// SERVICES
@@ -32,6 +38,10 @@ import { NotebookService } from '../providers/notebook.service';
 import { UserService } from '../providers/user.service';
 import { PartService } from '../providers/part.service';
 import { DocumentService } from '../providers/document.service';
+import { SectionService } from '../providers/section.service';
+import { InputService } from '../providers/input.service';
+import { AssignmentService } from '../providers/assignment.service';
+import { NotificationService } from '../providers/notification.service';
 
 @NgModule({
   declarations: [
@@ -47,7 +57,10 @@ import { DocumentService } from '../providers/document.service';
     DocumentEditPage,
     DocumentShowPage,
     PartNewPage,
-    PartEditPage
+    PartEditPage,
+    SectionNewPage,
+    InputEditPage,
+    NotificationIndexPage
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -66,7 +79,10 @@ import { DocumentService } from '../providers/document.service';
     DocumentEditPage,
     DocumentShowPage,
     PartNewPage,
-    PartEditPage
+    PartEditPage,
+    SectionNewPage,
+    InputEditPage,
+    NotificationIndexPage
   ],
   providers: [
     Auth, 
@@ -76,6 +92,10 @@ import { DocumentService } from '../providers/document.service';
     UserService,
     PartService,
     DocumentService,
+    SectionService,
+    InputService,
+    AssignmentService,
+    NotificationService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

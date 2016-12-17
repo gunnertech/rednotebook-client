@@ -1,0 +1,17 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Your Notifications</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+	<ion-list>
+	  <button text-wrap ion-item *ngFor="let notification of user.notifications" (click)="loadDocument(notification)">
+	  	<ion-icon [name]="notification.openedAt ? 'mail-open' : 'mail'" item-left></ion-icon>
+	    {{ notification.message }}
+	  </button>  
+	</ion-list>
+</ion-content>

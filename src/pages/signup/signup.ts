@@ -10,6 +10,7 @@ import { State } from '../../models/state.model';
 
 
 import { TabsPage } from '../tabs/tabs';
+import { HomePage } from '../home/home';
 import { LoginPage } from '../login/login';
 import { SecretTokenPage } from '../secret-token/secret-token';
 
@@ -55,7 +56,7 @@ export class SignupPage {
 	    this.loading.dismiss();
       this.authService.checkSecretToken().then((res) => {
         if(res) {
-          this.navCtrl.setRoot(TabsPage);
+          this.navCtrl.setRoot(HomePage);
         } else {
           this.navCtrl.setRoot(SecretTokenPage);
         }

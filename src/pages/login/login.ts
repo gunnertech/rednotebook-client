@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, LoadingController } from 'ionic-angular';
 import { Auth } from '../../providers/auth';
 import { TabsPage } from '../tabs/tabs';
+import { HomePage } from '../home/home';
 import { SignupPage } from '../signup/signup';
 
 /*
@@ -36,7 +37,7 @@ export class LoginPage {
     this.authService.login(credentials).then((result) => {
       this.loading.dismiss();
       console.log(result);
-      this.navCtrl.setRoot(TabsPage);
+      this.navCtrl.setRoot(HomePage);
     }, (err) => {
       this.loading.dismiss();
       console.log(err);

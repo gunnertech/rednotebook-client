@@ -5,12 +5,14 @@ import { Section } from './section.model';
 
 export class Document {
 	_id: string;
-	partId: string;
 	title: string;
 	position: number;
   part: Part | any;
-  state: State;
+  partId: string;
+  state: State | any;
+  stateId: string;
   isOngoing: boolean;
   assignments: Assignment[];
   sections: Section[];
+  sendNotification: boolean;
 }
