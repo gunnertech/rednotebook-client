@@ -50,6 +50,18 @@ export class NotificationIndexPage {
     });
   }
 
+  markAllRead() {
+  	_.filter(this.user.notifications, (notification) => { return !notification.openedAt }).forEach((notification) => {
+  		notification.openedAt = notification.openedAt || new Date();
+
+  		this.notificationService.save(notification)
+  		  .subscribe(
+  		    notification => { },
+  		    error =>  this.errorMessage = <any>error
+  		  );
+  	});
+  }
+
   loadDocument(notification: Notification) {
   	notification.openedAt = notification.openedAt || new Date();
   	this.notificationService.save(notification)

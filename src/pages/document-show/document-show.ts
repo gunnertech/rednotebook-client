@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 
 import { NavController, NavParams, AlertController } from 'ionic-angular';
 
+import { Observable } from 'rxjs/Rx';
+
 import { Part } from '../../models/part.model';
 import { PartService } from '../../providers/part.service';
 
@@ -16,11 +18,18 @@ import { User } from '../../models/user.model';
 import { Assignment } from '../../models/assignment.model';
 import { AssignmentService } from '../../providers/assignment.service';
 
+import { InputService } from '../../providers/input.service';
+import { Input } from '../../models/input.model';
+
+import { ResponseService } from '../../providers/response.service';
+import { Response } from '../../models/response.model';
+
 import { DocumentEditPage } from '../document-edit/document-edit';
 import { SectionNewPage } from '../section-new/section-new';
 import { InputEditPage } from '../input-edit/input-edit';
 
 import _ from "lodash";
+
 
 
 @Component({
@@ -34,7 +43,7 @@ export class DocumentShowPage {
   user: User;
   assignment: Assignment;
 
-  constructor(private navCtrl: NavController, private navParams: NavParams, private partService: PartService, private documentService: DocumentService, private alertCtrl: AlertController, private sectionService: SectionService, private userService: UserService, private assignmentService: AssignmentService) {
+  constructor(private navCtrl: NavController, private navParams: NavParams, private partService: PartService, private documentService: DocumentService, private alertCtrl: AlertController, private sectionService: SectionService, private userService: UserService, private assignmentService: AssignmentService, private inputService: InputService, private responseService: ResponseService) {
   	this.document = new Document();
     this.user = new User();
     this.assignment = new Assignment();
@@ -46,29 +55,47 @@ export class DocumentShowPage {
   }
 
   ionViewWillEnter() {
-    this.fetchDocument();
-    this.fetchUser();
+    this.fetchData();
   }
 
-  fetchUser() {
-    this.userService.get()
-      .subscribe(
-        (user) => {
-          this.user = user;
-          this.assignment = _.find(this.user.assignments, (assignment) => { return assignment.document == this.document._id; })
-          console.log(this.assignment);
-          console.log(user);
-        },
-        error =>  this.errorMessage = <any>error
-      );
+  responseValueFor(input: Input) : string {
+    if(!this.user.responses) {
+      return "";
+    } else {
+      let response = _.find(this.user.responses, (response) => { return response.input == input._id });
+      return response ? response.value : "";
+    }
   }
 
-  fetchDocument() {
-    this.documentService.get(this.navParams.get('documentId'))
-      .subscribe(
-        document => this.document = document,
-        error =>  this.errorMessage = <any>error
-      );
+  responseFor(input: Input) : Response {
+    if(!this.user.responses) {
+      return new Response();
+    } else {
+      return _.find(this.user.responses, (response) => { return response.input == input._id }) || new Response();
+    }
+  }
+
+  fetchData() {
+    Observable.forkJoin(
+      this.userService.get(),
+      this.documentService.get(this.navParams.get('documentId'))
+    )
+    .subscribe(
+      (data) => {
+        this.user = data[0];
+        console.log(this.user)
+        this.document = data[1];
+        this.assignment = _.find(this.user.assignments, (assignment) => { return assignment.document == this.document._id; });
+         
+        this.document.sections.forEach((section) => {
+          section.inputs.forEach((input) => {
+            input.responseValue = this.responseValueFor(input);
+          });
+        });
+      },
+      (error) => this.errorMessage = <any>error,
+      () => console.log("completed")
+    );
   }
 
   loadEditDocument() {
@@ -102,6 +129,38 @@ export class DocumentShowPage {
         assignment => console.log(assignment),
         error =>  this.errorMessage = <any>error
       );
+  }
+
+  saveResponses() {
+    this.document.sections.forEach((section) => {
+      section.inputs.forEach((input) => {
+        let response = this.responseFor(input);
+        response.value = input.responseValue;
+        response.input = input._id;
+        response.user = this.user._id;
+
+        this.responseService.save(response)
+          .subscribe(
+            (res) => {},
+            error => {}
+          );
+      });
+    });
+  }
+
+  saveResponse(input: Input) {
+    setTimeout( () => {
+      let response = this.responseFor(input);
+      response.value = input.responseValue;
+      response.input = input._id;
+      response.user = this.user._id;
+
+      this.responseService.save(response)
+        .subscribe(
+          (res) => {},
+          error => {}
+        );
+    }, 1000);
   }
 
   sendNotification() {
@@ -166,7 +225,34 @@ export class DocumentShowPage {
           handler: () => {
             this.sectionService.delete(sectionId)
               .subscribe(
-                res => this.fetchDocument(),
+                res => this.fetchData(),
+                error =>  this.errorMessage = <any>error
+              );  
+          }
+        }
+      ]
+    });
+    confirm.present();
+
+  }
+
+  removeInput(inputId: String) {
+    let confirm = this.alertCtrl.create({
+      title: 'Delete this input?',
+      message: 'Are you sure? This will also delete all data associated with this input. There is no undo.',
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: () => {
+            console.log('Disagree clicked');
+          }
+        },
+        {
+          text: 'Yes',
+          handler: () => {
+            this.inputService.delete(inputId)
+              .subscribe(
+                res => this.fetchData(),
                 error =>  this.errorMessage = <any>error
               );  
           }

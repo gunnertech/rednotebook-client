@@ -9,15 +9,26 @@
 
 <ion-content class="cards-bg">
   <ion-card *ngFor="let section of document.sections">
-    <ion-card-header>{{section.title}}</ion-card-header>
-    <ion-card-content>
+    <ion-card-header *ngIf="section.title">{{section.title}}</ion-card-header>
+    <ion-card-content *ngIf="section.description">
       <p>{{section.description}}</p>
     </ion-card-content>
 
     <ion-item *ngFor="let input of section.inputs">
-      <ion-label>{{input.label}}</ion-label>
-      <ion-datetime displayformat="MMM DD YYYY"></ion-datetime>
-      <!-- <ion-input type="text" value="today"></ion-input> -->
+      <ion-badge (click)="removeInput(input._id); $event.stopPropagation()" item-left><ion-icon name="trash"></ion-icon></ion-badge>
+      
+      <ion-label stacked>
+        {{input.label}}
+      </ion-label>
+      
+      <ion-datetime (ngModelChange)="saveResponse(input)" [(ngModel)]="input.responseValue" *ngIf="input.dataType == 'Date'" displayformat="MMM DD YYYY"></ion-datetime>
+      
+      <ion-input (ngModelChange)="saveResponse(input)" [(ngModel)]="input.responseValue" [placeholder]="input.placeholder || ''" *ngIf="input.dataType == 'Short Text' && !input.choices" type="text"></ion-input>
+
+      <ion-select (ngModelChange)="saveResponse(input)" [(ngModel)]="input.responseValue" *ngIf="input.choices">
+        <ion-option *ngFor="let choice of input.choices.split('\n');">{{choice}}</ion-option>
+      </ion-select>
+
     </ion-item>
 
     <ion-row>

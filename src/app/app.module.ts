@@ -42,6 +42,7 @@ import { SectionService } from '../providers/section.service';
 import { InputService } from '../providers/input.service';
 import { AssignmentService } from '../providers/assignment.service';
 import { NotificationService } from '../providers/notification.service';
+import { ResponseService } from '../providers/response.service';
 
 @NgModule({
   declarations: [
@@ -96,6 +97,7 @@ import { NotificationService } from '../providers/notification.service';
     InputService,
     AssignmentService,
     NotificationService,
+    ResponseService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

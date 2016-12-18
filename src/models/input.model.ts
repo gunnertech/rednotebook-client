@@ -16,4 +16,5 @@ export class Input {
   sectionId: string;
   master: Input;
   children: Input[];
+  responseValue: any;
 }

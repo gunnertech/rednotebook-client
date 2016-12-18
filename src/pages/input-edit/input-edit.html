@@ -34,7 +34,7 @@
 
 	  <ion-item>
 	    <ion-label>Data Type</ion-label>
-	    <ion-select [(ngModel)]="section.position">
+	    <ion-select [(ngModel)]="input.dataType">
 	      <ion-option *ngFor="let dataType of ['File', 'Short Text', 'Number', 'Percentage', 'Long Text', 'Date']">{{dataType}}</ion-option>
 	    </ion-select>
 	  </ion-item>
@@ -63,13 +63,13 @@
 	    <ion-label>Order</ion-label>
 	    <ion-select [(ngModel)]="input.position">
 	      <ion-option *ngFor="let input of section.inputs; let i = index" [value]="i+1">{{i+1}}</ion-option>
-	      <ion-option [value]="(section.inputs?.length || 0) + 1" >{{(input.documents?.length || 0) + 1}}</ion-option>
+	      <ion-option selected [value]="(section.inputs?.length || 0) + 1" >{{(section.inputs?.length || 0) + 1}}</ion-option>
 	    </ion-select>
 	  </ion-item>
 
 
 	</ion-list>
 
-	<button ion-button full (click)="saveInput()">Save</button>
+	<button [disabled]="!input.dataType || !input.position" ion-button full (click)="saveInput()">Save</button>
 
 </ion-content>

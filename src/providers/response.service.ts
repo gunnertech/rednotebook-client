@@ -4,11 +4,12 @@ import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 
 import { Storage } from '@ionic/storage';
-import { Part } from '../models/part.model';
+
+import { Response as ResponseModel } from '../models/response.model';
 
 
 @Injectable()
-export class PartService {
+export class ResponseService {
 
   constructor(public http: Http, private storage: Storage) { }
 
@@ -18,6 +19,7 @@ export class PartService {
 
 	  		let headers = new Headers();
 	  		headers.append('Authorization', value);
+        headers.append('Content-Type', 'application/json');
 
 	  		return headers;
 	  	})
@@ -37,33 +39,35 @@ export class PartService {
     return Observable.throw(errMsg);
   }
 
-  get(partId): Observable<Part> {
-
-  	return Observable
-			.fromPromise(this.buildHeaders())
-  		.switchMap((headers) => this.http.get(`/api/part/${partId}`, { headers: headers }))
-  		.map(res => <Part>res.json())
-  		.catch(this.handleError);
-  }
-
-  save(part: Part): Observable<Part> {
-    let url = part._id ? `/api/part/${part._id}` : '/api/part';
-
-  	return Observable
-			.fromPromise(this.buildHeaders())
-  		.switchMap((headers) => (part._id ? this.http.put(url, part, { headers: headers }) : this.http.post(url, part, { headers: headers })))
-  		.map(res => <Part>res.json())
-  		.catch(this.handleError);
-
-  }
-
-   delete(part: Part | any): Observable<any> {
+  get(responseId: string): Observable<ResponseModel> {
 
     return Observable
       .fromPromise(this.buildHeaders())
-      .switchMap((headers) => this.http.delete(`/api/part/${(part._id || part)}`, { headers: headers }) )
+      .switchMap((headers) => this.http.get(`/api/response/${responseId}`, { headers: headers }))
+      .map(res => <ResponseModel>res.json())
+      .catch(this.handleError);
+  }
+
+  save(response: ResponseModel): Observable<ResponseModel> {
+
+    let url = response._id ? `/api/response/${response._id}` : '/api/response';
+
+  	return Observable
+			.fromPromise(this.buildHeaders())
+  		.switchMap((headers) => (response._id ? this.http.put(url, response, { headers: headers }) : this.http.post(url, response, { headers: headers })))
+  		.map(res => <ResponseModel>res.json())
+  		.catch(this.handleError);
+
+  }
+
+  delete(response: ResponseModel | any): Observable<any> {
+
+    return Observable
+      .fromPromise(this.buildHeaders())
+      .switchMap((headers) => this.http.delete(`/api/response/${(response._id || response)}`, { headers: headers }) )
       .map(res => <any>res.json())
       .catch(this.handleError);
 
   }
+
 }

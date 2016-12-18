@@ -26,6 +26,7 @@
       {{part.title}} 
       <ion-badge (click)="loadNewDocument(part._id); $event.stopPropagation()" item-right><ion-icon name="add"></ion-icon></ion-badge>
       <ion-badge (click)="loadEditPart(part._id); $event.stopPropagation()" item-right><ion-icon name="create"></ion-icon></ion-badge>
+      <ion-badge (click)="removePart(part._id); $event.stopPropagation()" item-right><ion-icon name="trash"></ion-icon></ion-badge>
     </ion-item-divider>
     <ion-item *ngFor="let document of part.documents" (click)="loadDocumentShow(document._id)">{{ document.title }}</ion-item>
   </ion-item-group>

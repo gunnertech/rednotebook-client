@@ -1,12 +1,15 @@
 import { Component } from '@angular/core';
 
-import { NavController } from 'ionic-angular';
+import { NavController, AlertController } from 'ionic-angular';
 
 import { UserService } from '../../providers/user.service';
 import { User } from '../../models/user.model';
 
 import { NotebookService } from '../../providers/notebook.service';
 import { Notebook } from '../../models/notebook.model';
+
+import { Part } from '../../models/part.model';
+import { PartService } from '../../providers/part.service';
 
 import { DocumentNewPage } from '../document-new/document-new';
 import { DocumentShowPage } from '../document-show/document-show';
@@ -29,21 +32,28 @@ export class HomePage {
   completedAssignmentCount: number;
   unopenedNotificationCount: number;
 
-  constructor(public navCtrl: NavController, private userService: UserService, public notebookService: NotebookService) {
+  constructor(public navCtrl: NavController, private userService: UserService, public notebookService: NotebookService, private alertCtrl: AlertController, private partService: PartService) {
     this.user = new User();
   }
 
   ionViewDidLoad() {
-    
   }
 
   ionViewWillEnter() {
+    this.fetchUser();
+    this.fetchNotebook();
+  }
+
+  fetchNotebook() {
     this.notebookService.get()
       .subscribe(
         notebook => this.notebook = notebook,
         error =>  this.errorMessage = <any>error
       );
 
+  }
+
+  fetchUser() {
     this.userService.get()
       .subscribe(
         (user) => { this.updateUser(user); },
@@ -56,6 +66,33 @@ export class HomePage {
     this.assignmentCount = user.assignments.length;
     this.completedAssignmentCount = _.filter(user.assignments, (assignment) => { return assignment.completedAt != null; } ).length;
     this.unopenedNotificationCount = _.filter(user.notifications, (notification) => { return !notification.openedAt; } ).length;
+  }
+
+  removePart(part: Part) {
+    let confirm = this.alertCtrl.create({
+      title: 'Delete this part?',
+      message: 'Are you sure? This will also delete all items associated with this part and there is no undo.',
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: () => {
+            console.log('Disagree clicked');
+          }
+        },
+        {
+          text: 'Yes',
+          handler: () => {
+            this.partService.delete(part)
+              .subscribe(
+                (res) => {this.fetchUser(); this.fetchNotebook(); },
+                error =>  this.errorMessage = <any>error
+              );  
+          }
+        }
+      ]
+    });
+    confirm.present();
+
   }
 
   loadNewDocument(partId: string) {

@@ -37,12 +37,18 @@ export class InputEditPage {
 
     this.sectionService.get(this.input.sectionId)
       .subscribe(
-        section => this.section = section,
+        (section) => {
+          this.section = section;
+          if(!inputId) {
+            this.input.position = section.inputs.length + 1;
+          }
+        },
         error =>  this.errorMessage = <any>error
       );      
   }
 
   saveInput() {
+    console.log('saving')
   	this.input.section = this.input.sectionId;
   	this.inputService.save(this.input)
 	  	.subscribe(
