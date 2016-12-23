@@ -32,7 +32,7 @@
 	    <ion-textarea [(ngModel)]="input.description"></ion-textarea>
 	  </ion-item>
 
-	  <ion-item>
+	  <ion-item *ngIf="!input.requiresEncryption">
 	    <ion-label>Data Type</ion-label>
 	    <ion-select [(ngModel)]="input.dataType">
 	      <ion-option *ngFor="let dataType of ['File', 'Short Text', 'Number', 'Percentage', 'Long Text', 'Date']">{{dataType}}</ion-option>
@@ -51,7 +51,7 @@
 
 	  <ion-item>
 	    <ion-label>Repeatable?</ion-label>
-	    <ion-checkbox [(ngModel)]="section.repeatable"></ion-checkbox>
+	    <ion-checkbox [(ngModel)]="input.repeatable"></ion-checkbox>
 	  </ion-item>
 
 	  <ion-item>

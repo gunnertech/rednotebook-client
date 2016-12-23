@@ -5,6 +5,8 @@ import { Auth } from '../../providers/auth';
 
 import { TabsPage } from '../tabs/tabs';
 
+import { HomePage } from '../home/home';
+
 
 @Component({
   selector: 'page-secret-token',
@@ -17,10 +19,9 @@ export class SecretTokenPage {
   constructor(public authService: Auth, public navCtrl: NavController) {}
 
   saveToken() {
-  	console.log(this.secretToken);
   	this.authService.setSecretToken(this.secretToken);
 
-  	this.navCtrl.push(TabsPage);
+  	this.navCtrl.push(HomePage);
   }
 
   ionViewDidLoad() {

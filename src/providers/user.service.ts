@@ -15,14 +15,17 @@ export class UserService {
   constructor(public http: Http, private storage: Storage) { }
 
   private buildHeaders(): Promise<Headers> {
+    let headers = new Headers();
+    
   	return this.storage.get('token')
 	  	.then((value) => {
-
-	  		let headers = new Headers();
-	  		headers.append('Authorization', value);
-
-	  		return headers;
+        headers.append('Authorization', value);
+        return this.storage.get('secretToken')
 	  	})
+      .then((value) => {
+        headers.append('EncryptionKey', value);
+        return headers;
+      });
   }
 
   private handleError (error: Response | any) {

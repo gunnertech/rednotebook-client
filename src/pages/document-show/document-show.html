@@ -8,54 +8,98 @@
 
 
 <ion-content class="cards-bg">
-  <ion-card *ngFor="let section of document.sections">
-    <ion-card-header *ngIf="section.title">{{section.title}}</ion-card-header>
-    <ion-card-content *ngIf="section.description">
-      <p>{{section.description}}</p>
-    </ion-card-content>
+  <div *ngFor="let section of document.sections">
+    <ion-card>
+      <ion-card-header text-wrap *ngIf="section.title">{{section.title}}</ion-card-header>
+      <ion-card-content *ngIf="section.description">
+        <p>{{section.description}}</p>
+      </ion-card-content>
 
-    <ion-item *ngFor="let input of section.inputs">
-      <ion-badge (click)="removeInput(input._id); $event.stopPropagation()" item-left><ion-icon name="trash"></ion-icon></ion-badge>
-      
-      <ion-label stacked>
-        {{input.label}}
-      </ion-label>
-      
-      <ion-datetime (ngModelChange)="saveResponse(input)" [(ngModel)]="input.responseValue" *ngIf="input.dataType == 'Date'" displayformat="MMM DD YYYY"></ion-datetime>
-      
-      <ion-input (ngModelChange)="saveResponse(input)" [(ngModel)]="input.responseValue" [placeholder]="input.placeholder || ''" *ngIf="input.dataType == 'Short Text' && !input.choices" type="text"></ion-input>
+      <ion-item *ngFor="let input of section.inputs">
+        <ion-badge *ngIf="user.role == 'admin'" (click)="removeInput(input._id); $event.stopPropagation()" item-left><ion-icon name="trash"></ion-icon></ion-badge>
 
-      <ion-select (ngModelChange)="saveResponse(input)" [(ngModel)]="input.responseValue" *ngIf="input.choices">
-        <ion-option *ngFor="let choice of input.choices.split('\n');">{{choice}}</ion-option>
-      </ion-select>
+        <ion-label stacked>
+          {{input.label}}
+        </ion-label>
+        
+        <ion-datetime (ngModelChange)="saveResponse(input)" [(ngModel)]="input.responseValue" *ngIf="input.dataType == 'Date'" displayformat="MMM DD YYYY"></ion-datetime>
+        
+        <ion-input (ngModelChange)="saveResponse(input)" [(ngModel)]="input.responseValue" [placeholder]="input.placeholder || ''" *ngIf="(input.dataType == 'Short Text' || 'Number') && !input.choices" type="text"></ion-input>
 
-    </ion-item>
+        <ion-textarea (ngModelChange)="saveResponse(input)" [(ngModel)]="input.responseValue" [placeholder]="input.placeholder || ''" *ngIf="input.dataType == 'Long Text'" type="text"></ion-textarea>
 
-    <ion-row>
-      <ion-col>
-        <button ion-button icon-left small full (click)="loadEditSection(section._id); $event.stopPropagation()">
-          <ion-icon name="create"></ion-icon>
-          <div>Edit</div>
-        </button>
-      </ion-col>
-      <ion-col>
-        <button ion-button icon-left small full (click)="loadInputEdit(section._id); $event.stopPropagation()">
-          <ion-icon name="add"></ion-icon>
-          <div>Input</div>
-        </button>
-      </ion-col>
-      <ion-col center text-center>
-        <button ion-button icon-left small full (click)="removeSection(section._id); $event.stopPropagation()">
-          <ion-icon name="trash"></ion-icon>
-          <div>Delete</div>
-        </button>
-      </ion-col>
-    </ion-row>
-  </ion-card>
+        <ion-select [multiple]="input.allowMultipleChoiceSelections" (ngModelChange)="saveResponse(input)" [(ngModel)]="input.responseValue" *ngIf="input.choices">
+          <ion-option *ngFor="let choice of input.choices.split('\n');">{{choice}}</ion-option>
+        </ion-select>
+
+      </ion-item>
+
+      <ion-row *ngIf="user.role == 'admin'">
+        <ion-col>
+          <button ion-button icon-left small full (click)="loadEditSection(section._id); $event.stopPropagation()">
+            <ion-icon name="create"></ion-icon>
+            <div>Edit</div>
+          </button>
+        </ion-col>
+        <ion-col>
+          <button ion-button icon-left small full (click)="loadInputEdit(section._id); $event.stopPropagation()">
+            <ion-icon name="add"></ion-icon>
+            <div>Input</div>
+          </button>
+        </ion-col>
+        <ion-col center text-center>
+          <button ion-button icon-left small full (click)="removeSection(section._id); $event.stopPropagation()">
+            <ion-icon name="trash"></ion-icon>
+            <div>Delete</div>
+          </button>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <button *ngIf="section.children.length && !section.children[0].forceShow" (click)="showClonedSection(section.children[0])" ion-button full color="secondary">Add Another</button>
+        </ion-col>
+      </ion-row>
+    </ion-card>
+    
+    <div *ngFor="let child of section.children; let i = index">
+      <ion-card *ngIf="child.hasAnyResponses || child.forceShow">
+        <ion-card-header *ngIf="child.title">{{child.title}}</ion-card-header>
+        <ion-card-content *ngIf="child.description">
+          <p>{{child.description}}</p>
+        </ion-card-content>
+
+        <ion-item *ngFor="let input of child.inputs">
+          <ion-label stacked>
+            {{input.label}}
+          </ion-label>
+          
+          <ion-datetime (ngModelChange)="saveResponse(input)" [(ngModel)]="input.responseValue" *ngIf="input.dataType == 'Date'" displayformat="MMM DD YYYY"></ion-datetime>
+          
+          <ion-input (ngModelChange)="saveResponse(input)" [(ngModel)]="input.responseValue" [placeholder]="input.placeholder || ''" *ngIf="(input.dataType == 'Short Text' || 'Number') && !input.choices" type="text"></ion-input>
+
+          <ion-textarea (ngModelChange)="saveResponse(input)" [(ngModel)]="input.responseValue" [placeholder]="input.placeholder || ''" *ngIf="input.dataType == 'Long Text'" type="text"></ion-textarea>
+
+          <ion-select [multiple]="input.allowMultipleChoiceSelections" (ngModelChange)="saveResponse(input)" [(ngModel)]="input.responseValue" *ngIf="input.choices">
+            <ion-option *ngFor="let choice of input.choices.split('\n');">{{choice}}</ion-option>
+          </ion-select>
+
+        </ion-item>
+
+        <ion-row>
+          <ion-col>
+            <button *ngIf="!section.children[i+1].forceShow" (click)="showClonedSection(section.children[i+1])" ion-button full color="secondary">Add Another</button>
+          </ion-col>
+        </ion-row>
+      </ion-card>
+    </div>
+
+
+  </div>
 
   
 
-	<ion-fab right bottom>
+	<ion-fab right bottom *ngIf="user.role == 'admin'">
     <button ion-fab color="primary"><ion-icon name="arrow-dropup"></ion-icon></button>
     <ion-fab-list side="top">
       <button ion-fab (click)="loadSectionNew(document._id)"  ><ion-icon name="add"></ion-icon></button>

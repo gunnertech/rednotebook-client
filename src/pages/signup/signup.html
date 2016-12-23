@@ -7,11 +7,11 @@
 </ion-header> -->
 
 
-<ion-content>
+<ion-content class="cards-bg">
 
   <ion-row>
     <ion-col>
-      <img src="http://placehold.it/2400x350?text=Logo%20Goes%20Here">
+      <ion-img src="assets/images/logo.png"></ion-img>
     </ion-col>
   </ion-row>
 
@@ -37,10 +37,11 @@
       
     </ion-col>
   </ion-row>
+
   <ion-row class="account-form">
     <ion-col>
       <form [formGroup]="userFormGroup" (ngSubmit)="register()">
-        <ion-list inset>
+        <ion-list>
         
           <ion-item>
             <ion-label><ion-icon name="person"></ion-icon></ion-label>

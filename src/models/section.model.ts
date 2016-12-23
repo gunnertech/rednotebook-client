@@ -12,4 +12,5 @@ export class Section {
   master: Section;
   children: Section[];
   inputs: Input[];
+  forceShow: boolean;
 }

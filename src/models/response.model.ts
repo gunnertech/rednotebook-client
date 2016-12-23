@@ -7,4 +7,5 @@ export class Response {
   input: Input | any;
   user: User | any;
   isEncrypted: boolean;
+  decryptedValue: any;
 }

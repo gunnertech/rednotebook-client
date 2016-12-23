@@ -48,7 +48,7 @@ export class InputEditPage {
   }
 
   saveInput() {
-    console.log('saving')
+    this.input.dataType = this.input.requiresEncryption ? 'Short Text' : this.input.dataType;
   	this.input.section = this.input.sectionId;
   	this.inputService.save(this.input)
 	  	.subscribe(

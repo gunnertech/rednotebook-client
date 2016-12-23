@@ -12,4 +12,8 @@ export class User {
   responses: Response[];
   notifications: Notification[];
   role: string;
+
+  isAdmin() : boolean {
+  	return this.role == 'admin';
+  }
 }

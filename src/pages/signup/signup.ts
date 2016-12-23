@@ -51,16 +51,21 @@ export class SignupPage {
     
      
     //Check if already authenticated
-    this.authService.checkAuthentication().then((res) => {
+    this.authService.checkAuthentication()
+    .then((res) => {
 	    console.log("Already authorized");
 	    this.loading.dismiss();
-      this.authService.checkSecretToken().then((res) => {
+      this.authService.checkSecretToken()
+      .then((res) => {
         if(res) {
+          console.log(res);
           this.navCtrl.setRoot(HomePage);
         } else {
           this.navCtrl.setRoot(SecretTokenPage);
         }
-      });
+      }, (err) => {
+        this.navCtrl.setRoot(SecretTokenPage);
+      })
     }, (err) => {
       console.log("Not already authorized");
       this.loading.dismiss();

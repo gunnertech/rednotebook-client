@@ -7,6 +7,7 @@ import { Observable } from 'rxjs/Rx';
 import { Part } from '../../models/part.model';
 import { PartService } from '../../providers/part.service';
 
+import { Section } from '../../models/section.model';
 import { SectionService } from '../../providers/section.service';
 
 import { Document } from '../../models/document.model';
@@ -63,7 +64,11 @@ export class DocumentShowPage {
       return "";
     } else {
       let response = _.find(this.user.responses, (response) => { return response.input == input._id });
-      return response ? response.value : "";
+      if(!response) {
+        return ""
+      }
+      return (response.isEncrypted ? response.decryptedValue : response.value);
+      
     }
   }
 
@@ -83,13 +88,32 @@ export class DocumentShowPage {
     .subscribe(
       (data) => {
         this.user = data[0];
-        console.log(this.user)
         this.document = data[1];
         this.assignment = _.find(this.user.assignments, (assignment) => { return assignment.document == this.document._id; });
          
         this.document.sections.forEach((section) => {
           section.inputs.forEach((input) => {
-            input.responseValue = this.responseValueFor(input);
+            
+
+            if(input.allowMultipleChoiceSelections) {
+              input.responseValue = this.responseValueFor(input).split(",");
+            } else {
+              input.responseValue = this.responseValueFor(input);  
+            }
+
+            section.children.forEach((childSection) => {
+              childSection.inputs.forEach((input) => {
+                if(input.allowMultipleChoiceSelections) {
+                  input.responseValue = this.responseValueFor(input).split(",");
+                } else {
+                  input.responseValue = this.responseValueFor(input);  
+                }
+
+                if(this.responseValueFor(input)) {
+                  childSection.forceShow = true;
+                }
+              });
+            });
           });
         });
       },
@@ -106,7 +130,8 @@ export class DocumentShowPage {
 
   loadEditSection(sectionId) {
     this.navCtrl.push(SectionNewPage, {
-      sectionId: sectionId
+      sectionId: sectionId,
+      documentId: this.document._id
     })
   }
 
@@ -120,6 +145,10 @@ export class DocumentShowPage {
     this.navCtrl.push(InputEditPage, {
       sectionId: sectionId
     }) 
+  }
+
+  showClonedSection(section: Section) {
+    section.forceShow = true;
   }
 
   saveAssignment() {

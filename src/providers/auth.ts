@@ -40,7 +40,12 @@ export class Auth {
   checkSecretToken() {
     return new Promise((resolve, reject) => {
       this.storage.get('secretToken').then((value) => {
-        resolve(value);
+        if(value) {
+          resolve(value);  
+        } else {
+          reject("not set");
+        }
+        
       });
     });
   }
