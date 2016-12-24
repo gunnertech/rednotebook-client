@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
+import {DomSanitizer} from '@angular/platform-browser';
 
-import { NavController, NavParams, AlertController } from 'ionic-angular';
+import { NavController, NavParams, AlertController, ToastController } from 'ionic-angular';
 
 import { Observable } from 'rxjs/Rx';
 
@@ -44,7 +45,7 @@ export class DocumentShowPage {
   user: User;
   assignment: Assignment;
 
-  constructor(private navCtrl: NavController, private navParams: NavParams, private partService: PartService, private documentService: DocumentService, private alertCtrl: AlertController, private sectionService: SectionService, private userService: UserService, private assignmentService: AssignmentService, private inputService: InputService, private responseService: ResponseService) {
+  constructor(private sanitizer:DomSanitizer, public toastCtrl: ToastController, private navCtrl: NavController, private navParams: NavParams, private partService: PartService, private documentService: DocumentService, private alertCtrl: AlertController, private sectionService: SectionService, private userService: UserService, private assignmentService: AssignmentService, private inputService: InputService, private responseService: ResponseService) {
   	this.document = new Document();
     this.user = new User();
     this.assignment = new Assignment();
@@ -290,6 +291,46 @@ export class DocumentShowPage {
     });
     confirm.present();
 
+  }
+
+  presentToast(message: string) {
+    let toast = this.toastCtrl.create({
+      message: message,
+      duration: 3000
+    });
+    toast.present();
+  }
+
+  getBase64(file: File, input: Input) {
+    let reader = new FileReader();
+    
+    reader.readAsDataURL(file);
+    
+    reader.onload = () => {
+      console.log(reader.result);
+      input.responseValue = reader.result;
+      this.saveResponse(input);
+    }
+    
+    reader.onerror = (error) => {
+      console.log('Error: ', error);
+    }
+  }
+
+  fileChange(event, input: Input) {
+    let fileList: FileList = event.target.files;
+    if(fileList.length > 0) {
+      let file: File = fileList[0];
+      this.getBase64(file, input);
+      let formData: FormData = new FormData();
+
+      formData.append('uploadFile', file, file.name);
+        
+    }
+  }
+
+  sanitize(url:string){
+    return this.sanitizer.bypassSecurityTrustUrl(url);
   }
 
 }

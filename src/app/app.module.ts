@@ -1,6 +1,9 @@
+///// VENDOR SHIT
+
 import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
+import { Ng2UploaderModule } from 'ng2-uploader';
 
 import { MyApp } from './app.component';
 
@@ -43,6 +46,7 @@ import { InputService } from '../providers/input.service';
 import { AssignmentService } from '../providers/assignment.service';
 import { NotificationService } from '../providers/notification.service';
 import { ResponseService } from '../providers/response.service';
+import { FileService } from '../providers/file.service';
 
 @NgModule({
   declarations: [
@@ -64,6 +68,7 @@ import { ResponseService } from '../providers/response.service';
     NotificationIndexPage
   ],
   imports: [
+    Ng2UploaderModule,
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],
@@ -98,6 +103,7 @@ import { ResponseService } from '../providers/response.service';
     AssignmentService,
     NotificationService,
     ResponseService,
+    FileService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

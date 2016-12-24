@@ -15,16 +15,29 @@
         <p>{{section.description}}</p>
       </ion-card-content>
 
-      <ion-item *ngFor="let input of section.inputs">
+      <ion-item text-wrap *ngFor="let input of section.inputs">
         <ion-badge *ngIf="user.role == 'admin'" (click)="removeInput(input._id); $event.stopPropagation()" item-left><ion-icon name="trash"></ion-icon></ion-badge>
 
-        <ion-label stacked>
+        <ion-label stacked *ngIf="input.dataType != 'File'">
           {{input.label}}
         </ion-label>
+
+        <ion-row *ngIf="input.dataType == 'File'" wrap>
+          <ion-col>
+            <h5>{{input.label}}</h5>
+            <p text-wrap wrap>{{input.description}}</p>
+            <a *ngIf="input.documentUrl" target="_blank" [href]="input.documentUrl">Download Blank Doc</a>
+            <a *ngIf="input.responseValue" target="_blank" [href]="sanitize(input.responseValue)">Download Completed Doc</a>
+            
+          </ion-col>
+          <ion-col>
+            <input name="file" type="file" (change)="fileChange($event, input)" placeholder="Upload Completed Doc" accept=".pdf,.doc,.docx,.jpg,.jpeg,.gif,.png">
+          </ion-col>
+        </ion-row>
         
         <ion-datetime (ngModelChange)="saveResponse(input)" [(ngModel)]="input.responseValue" *ngIf="input.dataType == 'Date'" displayformat="MMM DD YYYY"></ion-datetime>
         
-        <ion-input (ngModelChange)="saveResponse(input)" [(ngModel)]="input.responseValue" [placeholder]="input.placeholder || ''" *ngIf="(input.dataType == 'Short Text' || 'Number') && !input.choices" type="text"></ion-input>
+        <ion-input (ngModelChange)="saveResponse(input)" [(ngModel)]="input.responseValue" [placeholder]="input.placeholder || ''" *ngIf="(input.dataType == 'Short Text' || input.dataType == 'Number') && !input.choices" type="text"></ion-input>
 
         <ion-textarea (ngModelChange)="saveResponse(input)" [(ngModel)]="input.responseValue" [placeholder]="input.placeholder || ''" *ngIf="input.dataType == 'Long Text'" type="text"></ion-textarea>
 
@@ -76,7 +89,7 @@
           
           <ion-datetime (ngModelChange)="saveResponse(input)" [(ngModel)]="input.responseValue" *ngIf="input.dataType == 'Date'" displayformat="MMM DD YYYY"></ion-datetime>
           
-          <ion-input (ngModelChange)="saveResponse(input)" [(ngModel)]="input.responseValue" [placeholder]="input.placeholder || ''" *ngIf="(input.dataType == 'Short Text' || 'Number') && !input.choices" type="text"></ion-input>
+          <ion-input (ngModelChange)="saveResponse(input)" [(ngModel)]="input.responseValue" [placeholder]="input.placeholder || ''" *ngIf="(input.dataType == 'Short Text' || input.dataType == 'Number') && !input.choices" type="text"></ion-input>
 
           <ion-textarea (ngModelChange)="saveResponse(input)" [(ngModel)]="input.responseValue" [placeholder]="input.placeholder || ''" *ngIf="input.dataType == 'Long Text'" type="text"></ion-textarea>
 
