@@ -45,14 +45,14 @@ export class ResponseService {
 
     return Observable
       .fromPromise(this.buildHeaders())
-      .switchMap((headers) => this.http.get(`/api/response/${responseId}`, { headers: headers }))
+      .switchMap((headers) => this.http.get(`http://localhost:8080/api/response/${responseId}`, { headers: headers }))
       .map(res => <ResponseModel>res.json())
       .catch(this.handleError);
   }
 
   save(response: ResponseModel): Observable<ResponseModel> {
 
-    let url = response._id ? `/api/response/${response._id}` : '/api/response';
+    let url = response._id ? `http://localhost:8080/api/response/${response._id}` : 'http://localhost:8080/api/response';
 
   	return Observable
 			.fromPromise(this.buildHeaders())
@@ -66,7 +66,7 @@ export class ResponseService {
 
     return Observable
       .fromPromise(this.buildHeaders())
-      .switchMap((headers) => this.http.delete(`/api/response/${(response._id || response)}`, { headers: headers }) )
+      .switchMap((headers) => this.http.delete(`http://localhost:8080/api/response/${(response._id || response)}`, { headers: headers }) )
       .map(res => <any>res.json())
       .catch(this.handleError);
 

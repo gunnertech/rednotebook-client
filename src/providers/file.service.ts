@@ -46,7 +46,7 @@ export class FileService {
 
   	return Observable
 			.fromPromise(this.buildHeaders())
-  		.switchMap((headers) => this.http.get('/api/auth/file', { headers: headers }))
+  		.switchMap((headers) => this.http.get('http://localhost:8080/api/auth/file', { headers: headers }))
   		.map(res => <File>res.json())
   		.catch(this.handleError);
   }
@@ -55,7 +55,7 @@ export class FileService {
 
     return Observable
       .fromPromise(this.buildHeaders())
-      .switchMap((headers) => this.http.post('/api/file', formData, { headers: headers }))
+      .switchMap((headers) => this.http.post('http://localhost:8080/api/file', formData, { headers: headers }))
       .map(res => <any>res.json())
       .catch(this.handleError);
 

@@ -28,6 +28,7 @@ import { PartEditPage } from '../pages/part-edit/part-edit';
 import { SectionNewPage } from '../pages/section-new/section-new';
 
 import { InputEditPage } from '../pages/input-edit/input-edit';
+import { AccountPage } from '../pages/account/account';
 
 import { NotificationIndexPage } from '../pages/notification-index/notification-index';
 
@@ -65,7 +66,8 @@ import { FileService } from '../providers/file.service';
     PartEditPage,
     SectionNewPage,
     InputEditPage,
-    NotificationIndexPage
+    NotificationIndexPage,
+    AccountPage
   ],
   imports: [
     Ng2UploaderModule,
@@ -88,7 +90,8 @@ import { FileService } from '../providers/file.service';
     PartEditPage,
     SectionNewPage,
     InputEditPage,
-    NotificationIndexPage
+    NotificationIndexPage,
+    AccountPage
   ],
   providers: [
     Auth, 

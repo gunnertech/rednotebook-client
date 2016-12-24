@@ -43,14 +43,14 @@ export class InputService {
 
     return Observable
       .fromPromise(this.buildHeaders())
-      .switchMap((headers) => this.http.get(`/api/input/${inputId}`, { headers: headers }))
+      .switchMap((headers) => this.http.get(`http://localhost:8080/api/input/${inputId}`, { headers: headers }))
       .map(res => <Input>res.json())
       .catch(this.handleError);
   }
 
   save(input: Input): Observable<Input> {
 
-    let url = input._id ? `/api/input/${input._id}` : '/api/input';
+    let url = input._id ? `http://localhost:8080/api/input/${input._id}` : 'http://localhost:8080/api/input';
 
   	return Observable
 			.fromPromise(this.buildHeaders())
@@ -64,7 +64,7 @@ export class InputService {
 
     return Observable
       .fromPromise(this.buildHeaders())
-      .switchMap((headers) => this.http.delete(`/api/input/${(input._id || input)}`, { headers: headers }) )
+      .switchMap((headers) => this.http.delete(`http://localhost:8080/api/input/${(input._id || input)}`, { headers: headers }) )
       .map(res => <any>res.json())
       .catch(this.handleError);
 

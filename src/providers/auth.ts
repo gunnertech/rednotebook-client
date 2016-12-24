@@ -24,7 +24,7 @@ export class Auth {
             let headers = new Headers();
             headers.append('Authorization', this.token);
  
-            this.http.get('/api/auth/loggedIn', {headers: headers})
+            this.http.get('http://localhost:8080/api/auth/loggedIn', {headers: headers})
                 .subscribe(res => {
                     resolve(res);
                 }, (err) => {
@@ -61,7 +61,7 @@ export class Auth {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
  
-        this.http.post('/api/auth/signup', JSON.stringify(details), {headers: headers})
+        this.http.post('http://localhost:8080/api/auth/signup', JSON.stringify(details), {headers: headers})
           .subscribe(res => {
             let data = res.json();
             this.token = data.token;
@@ -90,7 +90,7 @@ export class Auth {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
  
-        this.http.post('/api/auth/login', JSON.stringify(credentials), {headers: headers})
+        this.http.post('http://localhost:8080/api/auth/login', JSON.stringify(credentials), {headers: headers})
           .subscribe(res => {
  
             let data = res.json();
@@ -112,7 +112,7 @@ export class Auth {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
     
-        this.http.post('/api/auth/logout', "", {headers: headers})
+        this.http.post('http://localhost:8080/api/auth/logout', "", {headers: headers})
           .subscribe(res => {
             this.token = '';
             this.storage.set('token', '');
@@ -121,6 +121,7 @@ export class Auth {
           }, (err) => {
             this.token = '';
             this.storage.set('token', '');
+            this.storage.set('secretToken', '');
             reject(err);
           });
     

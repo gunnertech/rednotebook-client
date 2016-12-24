@@ -4,13 +4,8 @@ import { Auth } from '../../providers/auth';
 import { TabsPage } from '../tabs/tabs';
 import { HomePage } from '../home/home';
 import { SignupPage } from '../signup/signup';
+import { SecretTokenPage } from '../secret-token/secret-token';
 
-/*
-  Generated class for the LoginPage page.
-
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
-*/
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html'
@@ -34,9 +29,19 @@ export class LoginPage {
 	    password: this.password
     };
 
-    this.authService.login(credentials).then((result) => {
+    this.authService.login(credentials)
+    .then((result) => {
       this.loading.dismiss();
-      this.navCtrl.setRoot(HomePage);
+      this.authService.checkSecretToken()
+      .then((res) => {
+        if(res) {
+          this.navCtrl.setRoot(HomePage);
+        } else {
+          this.navCtrl.setRoot(SecretTokenPage);
+        }
+      }, (err) => {
+        this.navCtrl.setRoot(SecretTokenPage);
+      });
     }, (err) => {
       this.loading.dismiss();
       console.log(err);

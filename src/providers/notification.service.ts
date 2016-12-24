@@ -42,14 +42,14 @@ export class NotificationService {
 
     return Observable
       .fromPromise(this.buildHeaders())
-      .switchMap((headers) => this.http.get(`/api/notification/${notificationId}`, { headers: headers }))
+      .switchMap((headers) => this.http.get(`http://localhost:8080/api/notification/${notificationId}`, { headers: headers }))
       .map(res => <Notification>res.json())
       .catch(this.handleError);
   }
 
   save(notification: Notification): Observable<Notification> {
 
-    let url = notification._id ? `/api/notification/${notification._id}` : '/api/notification';
+    let url = notification._id ? `http://localhost:8080/api/notification/${notification._id}` : 'http://localhost:8080/api/notification';
 
   	return Observable
 			.fromPromise(this.buildHeaders())
@@ -63,7 +63,7 @@ export class NotificationService {
 
     return Observable
       .fromPromise(this.buildHeaders())
-      .switchMap((headers) => this.http.delete(`/api/notification/${(notification._id || notification)}`, { headers: headers }) )
+      .switchMap((headers) => this.http.delete(`http://localhost:8080/api/notification/${(notification._id || notification)}`, { headers: headers }) )
       .map(res => <any>res.json())
       .catch(this.handleError);
 

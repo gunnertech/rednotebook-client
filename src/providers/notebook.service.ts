@@ -42,7 +42,7 @@ export class NotebookService {
 
   	return Observable
 			.fromPromise(this.buildHeaders())
-  		.switchMap((headers) => this.http.get('/api/notebook', { headers: headers }))
+  		.switchMap((headers) => this.http.get('http://localhost:8080/api/notebook', { headers: headers }))
   		.map(res => <Notebook>res.json()[0])
   		.catch(this.handleError);
 

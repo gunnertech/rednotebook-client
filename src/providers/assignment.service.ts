@@ -43,14 +43,14 @@ export class AssignmentService {
 
     return Observable
       .fromPromise(this.buildHeaders())
-      .switchMap((headers) => this.http.get(`/api/assignment/${assignmentId}`, { headers: headers }))
+      .switchMap((headers) => this.http.get(`http://localhost:8080/api/assignment/${assignmentId}`, { headers: headers }))
       .map(res => <Assignment>res.json())
       .catch(this.handleError);
   }
 
   save(assignment: Assignment): Observable<Assignment> {
 
-    let url = assignment._id ? `/api/assignment/${assignment._id}` : '/api/assignment';
+    let url = assignment._id ? `http://localhost:8080/api/assignment/${assignment._id}` : 'http://localhost:8080/api/assignment';
 
   	return Observable
 			.fromPromise(this.buildHeaders())
@@ -64,7 +64,7 @@ export class AssignmentService {
 
     return Observable
       .fromPromise(this.buildHeaders())
-      .switchMap((headers) => this.http.delete(`/api/assignment/${(assignment._id || assignment)}`, { headers: headers }) )
+      .switchMap((headers) => this.http.delete(`http://localhost:8080/api/assignment/${(assignment._id || assignment)}`, { headers: headers }) )
       .map(res => <any>res.json())
       .catch(this.handleError);
 

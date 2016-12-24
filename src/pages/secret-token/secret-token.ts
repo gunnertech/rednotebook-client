@@ -21,7 +21,7 @@ export class SecretTokenPage {
   saveToken() {
   	this.authService.setSecretToken(this.secretToken);
 
-  	this.navCtrl.push(HomePage);
+  	this.navCtrl.setRoot(HomePage);
   }
 
   ionViewDidLoad() {

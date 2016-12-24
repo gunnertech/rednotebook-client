@@ -8,6 +8,7 @@ import { SignupPage } from '../pages/signup/signup';
 import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
 import { AboutPage } from '../pages/about/about';
+import { AccountPage } from '../pages/account/account';
 import { TabsPage } from '../pages/tabs/tabs';
 
 
@@ -24,7 +25,9 @@ export class MyApp {
     // {title: "About", component: AboutPage, tabNum: 1},
     // {title: "Contact", component: ContactPage, tabNum: 2},
     // {title: "Contact Raw", component: ContactPage},
-    {title: "Log Out", action: 'logout'}
+    {title: "Log Out", action: 'logout'},
+    {title: "Print Notebook", action: 'printNotebook'},
+    {title: "My Account", component: AccountPage},
   ];
 
   constructor(platform: Platform, public menuCtrl: MenuController, public authService: Auth) {
@@ -45,6 +48,10 @@ export class MyApp {
     });
   }
 
+  printNotebook() {
+    console.log("TODO")
+  }
+
   openPage(page) {
     this.menuCtrl.close();
     if(page.action) {
@@ -52,7 +59,7 @@ export class MyApp {
     } else if(page.tabNum) {
       this.nav.setRoot(TabsPage, { tabNum: page.tabNum });  
     } else {
-      this.nav.setRoot(page.component);
+      this.nav.push(page.component);
     }
     
   }

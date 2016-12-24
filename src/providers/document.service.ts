@@ -43,14 +43,14 @@ export class DocumentService {
 
     return Observable
       .fromPromise(this.buildHeaders())
-      .switchMap((headers) => this.http.get(`/api/document/${documentId}`, { headers: headers }))
+      .switchMap((headers) => this.http.get(`http://localhost:8080/api/document/${documentId}`, { headers: headers }))
       .map(res => <Document>res.json())
       .catch(this.handleError);
   }
 
   save(document: Document): Observable<Document> {
 
-    let url = document._id ? `/api/document/${document._id}` : '/api/document';
+    let url = document._id ? `http://localhost:8080/api/document/${document._id}` : 'http://localhost:8080/api/document';
 
   	return Observable
 			.fromPromise(this.buildHeaders())
@@ -64,7 +64,7 @@ export class DocumentService {
 
     return Observable
       .fromPromise(this.buildHeaders())
-      .switchMap((headers) => this.http.delete(`/api/document/${document._id}`, { headers: headers }) )
+      .switchMap((headers) => this.http.delete(`http://localhost:8080/api/document/${document._id}`, { headers: headers }) )
       .map(res => <any>res.json())
       .catch(this.handleError);
 

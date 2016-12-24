@@ -28,7 +28,7 @@ export class StateService {
   }
 
   query(): Observable<State[]> {
-		return this.http.get('/api/state')
+		return this.http.get('http://localhost:8080/api/state')
     	.map(res => <State[]>res.json())
     	.catch(this.handleError);
   }

@@ -43,14 +43,14 @@ export class SectionService {
 
     return Observable
       .fromPromise(this.buildHeaders())
-      .switchMap((headers) => this.http.get(`/api/section/${sectionId}`, { headers: headers }))
+      .switchMap((headers) => this.http.get(`http://localhost:8080/api/section/${sectionId}`, { headers: headers }))
       .map(res => <Section>res.json())
       .catch(this.handleError);
   }
 
   save(section: Section): Observable<Section> {
 
-    let url = section._id ? `/api/section/${section._id}` : '/api/section';
+    let url = section._id ? `http://localhost:8080/api/section/${section._id}` : 'http://localhost:8080/api/section';
 
   	return Observable
 			.fromPromise(this.buildHeaders())
@@ -64,7 +64,7 @@ export class SectionService {
 
     return Observable
       .fromPromise(this.buildHeaders())
-      .switchMap((headers) => this.http.delete(`/api/section/${(section._id || section)}`, { headers: headers }) )
+      .switchMap((headers) => this.http.delete(`http://localhost:8080/api/section/${(section._id || section)}`, { headers: headers }) )
       .map(res => <any>res.json())
       .catch(this.handleError);
 

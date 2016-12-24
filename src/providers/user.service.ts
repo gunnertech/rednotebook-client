@@ -46,7 +46,7 @@ export class UserService {
 
   	return Observable
 			.fromPromise(this.buildHeaders())
-  		.switchMap((headers) => this.http.get('/api/auth/user', { headers: headers }))
+  		.switchMap((headers) => this.http.get('http://localhost:8080/api/auth/user', { headers: headers }))
   		.map(res => <User>res.json())
   		.catch(this.handleError);
   }
