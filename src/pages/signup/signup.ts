@@ -1,10 +1,13 @@
 import { Component } from '@angular/core';
 import { NavController, LoadingController, AlertController } from 'ionic-angular';
 import {Validators, FormBuilder, FormGroup } from '@angular/forms';
-
+import { Settings } from '../../app/settings';
 
 import { Auth } from '../../providers/auth';
 import { StateService } from '../../providers/state.service';
+
+import { UserService } from '../../providers/user.service';
+import { User } from '../../models/user.model';
 
 import { State } from '../../models/state.model';
 
@@ -13,6 +16,7 @@ import { TabsPage } from '../tabs/tabs';
 import { HomePage } from '../home/home';
 import { LoginPage } from '../login/login';
 import { SecretTokenPage } from '../secret-token/secret-token';
+import { AccountPage } from '../account/account';
 
 @Component({
   selector: 'page-signup',
@@ -29,7 +33,7 @@ export class SignupPage {
 	states: State[];
   errorMessage: string;
 
-  constructor(private stateService: StateService, private formBuilder: FormBuilder, public navCtrl: NavController, public authService: Auth, public loadingCtrl: LoadingController, public alertCtrl: AlertController) {
+  constructor(private userService: UserService, private stateService: StateService, private formBuilder: FormBuilder, public navCtrl: NavController, public authService: Auth, public loadingCtrl: LoadingController, public alertCtrl: AlertController) {
   	this.userFormGroup = this.formBuilder.group({
   	  username: ['', [Validators.required, Validators.minLength(4)]],
   	  email: ['', [Validators.required]],
@@ -58,8 +62,17 @@ export class SignupPage {
       this.authService.checkSecretToken()
       .then((res) => {
         if(res) {
-          console.log(res);
-          this.navCtrl.setRoot(HomePage);
+          this.userService.get()
+          .subscribe(
+            (user) => {
+              if(!user.hasValidSubscription) {
+                this.navCtrl.setRoot(AccountPage);
+              } else {
+                this.navCtrl.setRoot(HomePage);
+              }
+            },
+            error =>  this.errorMessage = <any>error
+          );
         } else {
           this.navCtrl.setRoot(SecretTokenPage);
         }

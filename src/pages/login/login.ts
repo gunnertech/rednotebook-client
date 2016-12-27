@@ -5,6 +5,9 @@ import { TabsPage } from '../tabs/tabs';
 import { HomePage } from '../home/home';
 import { SignupPage } from '../signup/signup';
 import { SecretTokenPage } from '../secret-token/secret-token';
+import { AccountPage } from '../account/account';
+
+import { UserService } from '../../providers/user.service';
 
 @Component({
   selector: 'page-login',
@@ -15,8 +18,9 @@ export class LoginPage {
   email: string;
   password: string;
   loading: any;
+  errorMessage: string;
 
-  constructor(public navCtrl: NavController, public authService: Auth, public loadingCtrl: LoadingController) {
+  constructor(private userService: UserService, public navCtrl: NavController, public authService: Auth, public loadingCtrl: LoadingController) {
 
   }
 
@@ -34,11 +38,17 @@ export class LoginPage {
       this.loading.dismiss();
       this.authService.checkSecretToken()
       .then((res) => {
-        if(res) {
-          this.navCtrl.setRoot(HomePage);
-        } else {
-          this.navCtrl.setRoot(SecretTokenPage);
-        }
+        this.userService.get()
+        .subscribe(
+          (user) => {
+            if(!user.hasValidSubscription) {
+              this.navCtrl.setRoot(AccountPage);
+            } else {
+              this.navCtrl.setRoot(HomePage);
+            }
+          },
+          error =>  this.errorMessage = <any>error
+        );
       }, (err) => {
         this.navCtrl.setRoot(SecretTokenPage);
       });

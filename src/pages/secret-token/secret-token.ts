@@ -2,10 +2,12 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
 import { Auth } from '../../providers/auth';
+import { UserService } from '../../providers/user.service';
 
 import { TabsPage } from '../tabs/tabs';
 
 import { HomePage } from '../home/home';
+import { AccountPage } from '../account/account';
 
 
 @Component({
@@ -15,13 +17,24 @@ import { HomePage } from '../home/home';
 export class SecretTokenPage {
 
 	secretToken: string;
+  errorMessage: string;
 
-  constructor(public authService: Auth, public navCtrl: NavController) {}
+  constructor(public userService: UserService, public authService: Auth, public navCtrl: NavController) {}
 
   saveToken() {
   	this.authService.setSecretToken(this.secretToken);
 
-  	this.navCtrl.setRoot(HomePage);
+    this.userService.get()
+    .subscribe(
+      (user) => {
+        if(!user.hasValidSubscription) {
+          this.navCtrl.setRoot(AccountPage);
+        } else {
+          this.navCtrl.setRoot(HomePage);
+        }
+      },
+      error =>  this.errorMessage = <any>error
+    );
   }
 
   ionViewDidLoad() {

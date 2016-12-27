@@ -1,22 +1,60 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, AlertController } from 'ionic-angular';
+import { Observable } from 'rxjs/Rx';
 
-/*
-  Generated class for the Account page.
+import { StateService } from '../../providers/state.service';
+import { State } from '../../models/state.model';
 
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
-*/
+import { UserService } from '../../providers/user.service';
+import { User } from '../../models/user.model';
+
+
 @Component({
   selector: 'page-account',
   templateUrl: 'account.html'
 })
 export class AccountPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {}
+	user: User;
+	states: State[];
+	view: String;
+  months: string[];
+
+  constructor(public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams, private userService: UserService, private stateService: StateService) {
+  	this.user = new User();
+  	this.user.local = {};
+    this.user.billingInfo = {};
+  	this.view = "credentials";
+    this.months = ['January', 'Feburary', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'Decemter'];
+  }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad AccountPage');
+
+    Observable.forkJoin(
+      this.userService.get(),
+      this.stateService.query()
+    )
+    .subscribe(
+      (data) => {
+        this.user = data[0];
+        this.states = data[1];
+        this.user.state = this.user.states[0];
+
+        if(!this.user.hasValidSubscription) {
+          this.showAlert();
+        }
+    	}
+    )
+  }
+
+  showAlert() {
+    let alert = this.alertCtrl.create({
+      title: 'Your Account has Expired',
+      subTitle: 'In order to access your account, you need to update your subsribtion. Rednotebook is only $.99 per month.' ,
+      buttons: ['OK']
+    });
+    this.view = 'subscription';
+    alert.present();
   }
 
 }
