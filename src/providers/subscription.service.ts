@@ -6,6 +6,7 @@ import 'rxjs/add/operator/map';
 import { Storage } from '@ionic/storage';
 
 import { Subscription } from '../models/subscription.model';
+import { User } from '../models/user.model';
 
 
 @Injectable()
@@ -26,7 +27,6 @@ export class SubscriptionService {
   }
 
   private handleError (error: Response | any) {
-      // In a real world app, we might use a remote logging infrastructure
     let errMsg: string;
     if (error instanceof Response) {
       const body = error.json() || '';
@@ -48,13 +48,13 @@ export class SubscriptionService {
       .catch(this.handleError);
   }
 
-  save(subscription: Subscription): Observable<Subscription> {
+  save(user: User): Observable<Subscription> {
 
-    let url = 'http://localhost:8080/api/subscription';
+    let url = `http://localhost:8080/api/subscription?user_id=${user._id}`;
 
   	return Observable
 			.fromPromise(this.buildHeaders())
-  		.switchMap((headers) => this.http.post(url, subscription, { headers: headers }))
+  		.switchMap((headers) => this.http.post(url, user, { headers: headers }))
   		.map(res => <Subscription>res.json())
   		.catch(this.handleError);
 
@@ -65,7 +65,7 @@ export class SubscriptionService {
     return Observable
       .fromPromise(this.buildHeaders())
       .switchMap((headers) => this.http.delete(`http://localhost:8080/api/subscription/${(subscription._id || subscription)}`, { headers: headers }) )
-      .map(res => <any>res.json())
+      .map(res => <Subscription>res.json())
       .catch(this.handleError);
 
   }

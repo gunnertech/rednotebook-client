@@ -51,4 +51,16 @@ export class UserService {
   		.catch(this.handleError);
   }
 
+  save(user: User): Observable<User> {
+
+    let url = 'http://localhost:8080/api/auth/user';
+
+  	return Observable
+			.fromPromise(this.buildHeaders())
+  		.switchMap((headers) => this.http.put(url, user, { headers: headers }))
+  		.map(res => <User>res.json())
+  		.catch(this.handleError);
+
+  }
+
 }

@@ -48,6 +48,7 @@ import { AssignmentService } from '../providers/assignment.service';
 import { NotificationService } from '../providers/notification.service';
 import { ResponseService } from '../providers/response.service';
 import { FileService } from '../providers/file.service';
+import { SubscriptionService } from '../providers/subscription.service';
 
 @NgModule({
   declarations: [
@@ -107,6 +108,7 @@ import { FileService } from '../providers/file.service';
     NotificationService,
     ResponseService,
     FileService,
+    SubscriptionService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
