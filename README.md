@@ -9,3 +9,6 @@
 
 # Operation
 1. ```ionic serve```
+
+# Deploy
+``` node deploy.js ```
