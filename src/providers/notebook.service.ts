@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
+import { Settings } from '../app/settings.ts';
 import 'rxjs/add/operator/map';
 
 import { Storage } from '@ionic/storage';
@@ -42,7 +43,7 @@ export class NotebookService {
 
   	return Observable
 			.fromPromise(this.buildHeaders())
-  		.switchMap((headers) => this.http.get('http://localhost:8080/api/notebook', { headers: headers }))
+  		.switchMap((headers) => this.http.get(`${Settings.API_ENDPOINT}/notebook`, { headers: headers }))
   		.map(res => <Notebook>res.json()[0])
   		.catch(this.handleError);
 

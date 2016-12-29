@@ -6,6 +6,7 @@ import 'rxjs/add/operator/map';
 import { Storage } from '@ionic/storage';
 
 import { Assignment } from '../models/assignment.model';
+import { Settings } from '../app/settings.ts';
 
 
 @Injectable()
@@ -43,14 +44,14 @@ export class AssignmentService {
 
     return Observable
       .fromPromise(this.buildHeaders())
-      .switchMap((headers) => this.http.get(`http://localhost:8080/api/assignment/${assignmentId}`, { headers: headers }))
+      .switchMap((headers) => this.http.get(`${Settings.API_ENDPOINT}/assignment/${assignmentId}`, { headers: headers }))
       .map(res => <Assignment>res.json())
       .catch(this.handleError);
   }
 
   save(assignment: Assignment): Observable<Assignment> {
 
-    let url = assignment._id ? `http://localhost:8080/api/assignment/${assignment._id}` : 'http://localhost:8080/api/assignment';
+    let url = assignment._id ? `assignment/${assignment._id}` : `${Settings.API_ENDPOINT}/assignment`;
 
   	return Observable
 			.fromPromise(this.buildHeaders())
@@ -64,7 +65,7 @@ export class AssignmentService {
 
     return Observable
       .fromPromise(this.buildHeaders())
-      .switchMap((headers) => this.http.delete(`http://localhost:8080/api/assignment/${(assignment._id || assignment)}`, { headers: headers }) )
+      .switchMap((headers) => this.http.delete(`assignment/${(assignment._id || assignment)}`, { headers: headers }) )
       .map(res => <any>res.json())
       .catch(this.handleError);
 

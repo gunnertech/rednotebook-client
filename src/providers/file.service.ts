@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
+import { Settings } from '../app/settings.ts';
 
 import { Storage } from '@ionic/storage';
 
@@ -46,7 +47,7 @@ export class FileService {
 
   	return Observable
 			.fromPromise(this.buildHeaders())
-  		.switchMap((headers) => this.http.get('http://localhost:8080/api/auth/file', { headers: headers }))
+  		.switchMap((headers) => this.http.get(`${Settings.API_ENDPOINT}/auth/file`, { headers: headers }))
   		.map(res => <File>res.json())
   		.catch(this.handleError);
   }
@@ -55,7 +56,7 @@ export class FileService {
 
     return Observable
       .fromPromise(this.buildHeaders())
-      .switchMap((headers) => this.http.post('http://localhost:8080/api/file', formData, { headers: headers }))
+      .switchMap((headers) => this.http.post(`${Settings.API_ENDPOINT}/file`, formData, { headers: headers }))
       .map(res => <any>res.json())
       .catch(this.handleError);
 

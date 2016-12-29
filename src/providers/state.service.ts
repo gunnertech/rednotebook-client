@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
+import { Settings } from '../app/settings.ts';
 import 'rxjs/add/operator/map';
 
 import { State } from '../models/state.model';
@@ -28,7 +29,7 @@ export class StateService {
   }
 
   query(): Observable<State[]> {
-		return this.http.get('http://localhost:8080/api/state')
+		return this.http.get(`${Settings.API_ENDPOINT}/state`)
     	.map(res => <State[]>res.json())
     	.catch(this.handleError);
   }

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
+import { Settings } from '../app/settings.ts';
 import 'rxjs/add/operator/map';
 
 import { Storage } from '@ionic/storage';
@@ -43,14 +44,14 @@ export class SectionService {
 
     return Observable
       .fromPromise(this.buildHeaders())
-      .switchMap((headers) => this.http.get(`http://localhost:8080/api/section/${sectionId}`, { headers: headers }))
+      .switchMap((headers) => this.http.get(`${Settings.API_ENDPOINT}/api/section/${sectionId}`, { headers: headers }))
       .map(res => <Section>res.json())
       .catch(this.handleError);
   }
 
   save(section: Section): Observable<Section> {
 
-    let url = section._id ? `http://localhost:8080/api/section/${section._id}` : 'http://localhost:8080/api/section';
+    let url = section._id ? `${Settings.API_ENDPOINT}/api/section/${section._id}` : `${Settings.API_ENDPOINT}/section`;
 
   	return Observable
 			.fromPromise(this.buildHeaders())
@@ -64,7 +65,7 @@ export class SectionService {
 
     return Observable
       .fromPromise(this.buildHeaders())
-      .switchMap((headers) => this.http.delete(`http://localhost:8080/api/section/${(section._id || section)}`, { headers: headers }) )
+      .switchMap((headers) => this.http.delete(`${Settings.API_ENDPOINT}/api/section/${(section._id || section)}`, { headers: headers }) )
       .map(res => <any>res.json())
       .catch(this.handleError);
 

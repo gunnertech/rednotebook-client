@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
+import { Settings } from '../app/settings.ts';
 
 import { Storage } from '@ionic/storage';
 
@@ -46,14 +47,14 @@ export class UserService {
 
   	return Observable
 			.fromPromise(this.buildHeaders())
-  		.switchMap((headers) => this.http.get('http://localhost:8080/api/auth/user', { headers: headers }))
+  		.switchMap((headers) => this.http.get(`${Settings.API_ENDPOINT}/auth/user`, { headers: headers }))
   		.map(res => <User>res.json())
   		.catch(this.handleError);
   }
 
   save(user: User): Observable<User> {
 
-    let url = 'http://localhost:8080/api/auth/user';
+    let url = `${Settings.API_ENDPOINT}/auth/user`;
 
   	return Observable
 			.fromPromise(this.buildHeaders())

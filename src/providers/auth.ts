@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import { Storage } from '@ionic/storage';
+import { Settings } from '../app/settings.ts';
 import 'rxjs/add/operator/map';
  
 @Injectable()
@@ -24,7 +25,7 @@ export class Auth {
             let headers = new Headers();
             headers.append('Authorization', this.token);
  
-            this.http.get('http://localhost:8080/api/auth/loggedIn', {headers: headers})
+            this.http.get(`${Settings.API_ENDPOINT}/auth/loggedIn`, {headers: headers})
                 .subscribe(res => {
                     resolve(res);
                 }, (err) => {
@@ -61,7 +62,7 @@ export class Auth {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
  
-        this.http.post('http://localhost:8080/api/auth/signup', JSON.stringify(details), {headers: headers})
+        this.http.post(`${Settings.API_ENDPOINT()}/auth/signup`, JSON.stringify(details), {headers: headers})
           .subscribe(res => {
             let data = res.json();
             this.token = data.token;
@@ -90,7 +91,7 @@ export class Auth {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
  
-        this.http.post('http://localhost:8080/api/auth/login', JSON.stringify(credentials), {headers: headers})
+        this.http.post(`${Settings.API_ENDPOINT()}/auth/login`, JSON.stringify(credentials), {headers: headers})
           .subscribe(res => {
  
             let data = res.json();
@@ -112,7 +113,7 @@ export class Auth {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
     
-        this.http.post('http://localhost:8080/api/auth/logout', "", {headers: headers})
+        this.http.post(`${Settings.API_ENDPOINT()}/auth/logout`, "", {headers: headers})
           .subscribe(res => {
             this.token = '';
             this.storage.set('token', '');

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
+import { Settings } from '../app/settings.ts';
 import 'rxjs/add/operator/map';
 
 import { Storage } from '@ionic/storage';
@@ -43,14 +44,14 @@ export class DocumentService {
 
     return Observable
       .fromPromise(this.buildHeaders())
-      .switchMap((headers) => this.http.get(`http://localhost:8080/api/document/${documentId}`, { headers: headers }))
+      .switchMap((headers) => this.http.get(`${Settings.API_ENDPOINT}/api/document/${documentId}`, { headers: headers }))
       .map(res => <Document>res.json())
       .catch(this.handleError);
   }
 
   save(document: Document): Observable<Document> {
 
-    let url = document._id ? `http://localhost:8080/api/document/${document._id}` : 'http://localhost:8080/api/document';
+    let url = document._id ? `${Settings.API_ENDPOINT}/api/document/${document._id}` : `${Settings.API_ENDPOINT}/document`;
 
   	return Observable
 			.fromPromise(this.buildHeaders())
@@ -64,7 +65,7 @@ export class DocumentService {
 
     return Observable
       .fromPromise(this.buildHeaders())
-      .switchMap((headers) => this.http.delete(`http://localhost:8080/api/document/${document._id}`, { headers: headers }) )
+      .switchMap((headers) => this.http.delete(`${Settings.API_ENDPOINT}/api/document/${document._id}`, { headers: headers }) )
       .map(res => <any>res.json())
       .catch(this.handleError);
 

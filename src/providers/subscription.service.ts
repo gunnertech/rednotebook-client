@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
+import { Settings } from '../app/settings.ts';
 import 'rxjs/add/operator/map';
 
 import { Storage } from '@ionic/storage';
@@ -43,14 +44,14 @@ export class SubscriptionService {
 
     return Observable
       .fromPromise(this.buildHeaders())
-      .switchMap((headers) => this.http.get(`http://localhost:8080/api/subscription/${subscriptionId}`, { headers: headers }))
+      .switchMap((headers) => this.http.get(`${Settings.API_ENDPOINT}/api/subscription/${subscriptionId}`, { headers: headers }))
       .map(res => <Subscription>res.json())
       .catch(this.handleError);
   }
 
   save(user: User): Observable<Subscription> {
 
-    let url = `http://localhost:8080/api/subscription?user_id=${user._id}`;
+    let url = `${Settings.API_ENDPOINT}/api/subscription?user_id=${user._id}`;
 
   	return Observable
 			.fromPromise(this.buildHeaders())
@@ -64,7 +65,7 @@ export class SubscriptionService {
 
     return Observable
       .fromPromise(this.buildHeaders())
-      .switchMap((headers) => this.http.delete(`http://localhost:8080/api/subscription/${(subscription._id || subscription)}`, { headers: headers }) )
+      .switchMap((headers) => this.http.delete(`${Settings.API_ENDPOINT}/api/subscription/${(subscription._id || subscription)}`, { headers: headers }) )
       .map(res => <Subscription>res.json())
       .catch(this.handleError);
 
