@@ -44,14 +44,14 @@ export class InputService {
 
     return Observable
       .fromPromise(this.buildHeaders())
-      .switchMap((headers) => this.http.get(`${Settings.API_ENDPOINT}/api/input/${inputId}`, { headers: headers }))
+      .switchMap((headers) => this.http.get(`${Settings.API_ENDPOINT}/input/${inputId}`, { headers: headers }))
       .map(res => <Input>res.json())
       .catch(this.handleError);
   }
 
   save(input: Input): Observable<Input> {
 
-    let url = input._id ? `${Settings.API_ENDPOINT}/api/input/${input._id}` : `${Settings.API_ENDPOINT}/input`;
+    let url = input._id ? `${Settings.API_ENDPOINT}/input/${input._id}` : `${Settings.API_ENDPOINT}/input`;
 
   	return Observable
 			.fromPromise(this.buildHeaders())
@@ -65,7 +65,7 @@ export class InputService {
 
     return Observable
       .fromPromise(this.buildHeaders())
-      .switchMap((headers) => this.http.delete(`${Settings.API_ENDPOINT}/api/input/${(input._id || input)}`, { headers: headers }) )
+      .switchMap((headers) => this.http.delete(`${Settings.API_ENDPOINT}/input/${(input._id || input)}`, { headers: headers }) )
       .map(res => <any>res.json())
       .catch(this.handleError);
 

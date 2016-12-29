@@ -42,13 +42,13 @@ export class PartService {
 
   	return Observable
 			.fromPromise(this.buildHeaders())
-  		.switchMap((headers) => this.http.get(`${Settings.API_ENDPOINT}/api/part/${partId}`, { headers: headers }))
+  		.switchMap((headers) => this.http.get(`${Settings.API_ENDPOINT}/part/${partId}`, { headers: headers }))
   		.map(res => <Part>res.json())
   		.catch(this.handleError);
   }
 
   save(part: Part): Observable<Part> {
-    let url = part._id ? `${Settings.API_ENDPOINT}/api/part/${part._id}` : `${Settings.API_ENDPOINT}/part`;
+    let url = part._id ? `${Settings.API_ENDPOINT}/part/${part._id}` : `${Settings.API_ENDPOINT}/part`;
 
   	return Observable
 			.fromPromise(this.buildHeaders())
@@ -62,7 +62,7 @@ export class PartService {
 
     return Observable
       .fromPromise(this.buildHeaders())
-      .switchMap((headers) => this.http.delete(`${Settings.API_ENDPOINT}/api/part/${(part._id || part)}`, { headers: headers }) )
+      .switchMap((headers) => this.http.delete(`${Settings.API_ENDPOINT}/part/${(part._id || part)}`, { headers: headers }) )
       .map(res => <any>res.json())
       .catch(this.handleError);
 

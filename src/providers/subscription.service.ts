@@ -44,14 +44,14 @@ export class SubscriptionService {
 
     return Observable
       .fromPromise(this.buildHeaders())
-      .switchMap((headers) => this.http.get(`${Settings.API_ENDPOINT}/api/subscription/${subscriptionId}`, { headers: headers }))
+      .switchMap((headers) => this.http.get(`${Settings.API_ENDPOINT}/subscription/${subscriptionId}`, { headers: headers }))
       .map(res => <Subscription>res.json())
       .catch(this.handleError);
   }
 
   save(user: User): Observable<Subscription> {
 
-    let url = `${Settings.API_ENDPOINT}/api/subscription?user_id=${user._id}`;
+    let url = `${Settings.API_ENDPOINT}/subscription?user_id=${user._id}`;
 
   	return Observable
 			.fromPromise(this.buildHeaders())
@@ -65,7 +65,7 @@ export class SubscriptionService {
 
     return Observable
       .fromPromise(this.buildHeaders())
-      .switchMap((headers) => this.http.delete(`${Settings.API_ENDPOINT}/api/subscription/${(subscription._id || subscription)}`, { headers: headers }) )
+      .switchMap((headers) => this.http.delete(`${Settings.API_ENDPOINT}/subscription/${(subscription._id || subscription)}`, { headers: headers }) )
       .map(res => <Subscription>res.json())
       .catch(this.handleError);
 
