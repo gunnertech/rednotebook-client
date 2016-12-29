@@ -62,7 +62,7 @@ export class Auth {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
  
-        this.http.post(`${Settings.API_ENDPOINT()}/auth/signup`, JSON.stringify(details), {headers: headers})
+        this.http.post(`${Settings.API_ENDPOINT}/auth/signup`, JSON.stringify(details), {headers: headers})
           .subscribe(res => {
             let data = res.json();
             this.token = data.token;
@@ -91,7 +91,7 @@ export class Auth {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
  
-        this.http.post(`${Settings.API_ENDPOINT()}/auth/login`, JSON.stringify(credentials), {headers: headers})
+        this.http.post(`${Settings.API_ENDPOINT}/auth/login`, JSON.stringify(credentials), {headers: headers})
           .subscribe(res => {
  
             let data = res.json();
@@ -113,7 +113,7 @@ export class Auth {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
     
-        this.http.post(`${Settings.API_ENDPOINT()}/auth/logout`, "", {headers: headers})
+        this.http.post(`${Settings.API_ENDPOINT}/auth/logout`, "", {headers: headers})
           .subscribe(res => {
             this.token = '';
             this.storage.set('token', '');
