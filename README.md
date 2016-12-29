@@ -12,5 +12,4 @@
 1. ```ionic serve```
 
 # Deploy
-1. Make sure you have the .env file from a fellow developer
-2. ``` node deploy.js ```
+1. ``` node deploy.js ```
