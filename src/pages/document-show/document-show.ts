@@ -81,6 +81,10 @@ export class DocumentShowPage {
     }
   }
 
+  generatePDF() {
+    console.log("TODO");
+  }
+
   fetchData() {
     Observable.forkJoin(
       this.userService.get(),

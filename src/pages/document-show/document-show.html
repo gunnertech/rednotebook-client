@@ -2,6 +2,11 @@
 
   <ion-navbar>
     <ion-title>{{document.title}}</ion-title>
+    <ion-buttons right>
+      <button ion-button icon-right (click)="saveResponses()">
+        Save
+      </button>
+    </ion-buttons>
   </ion-navbar>
 
 </ion-header>
@@ -129,10 +134,12 @@
         {{assignment.completedAt ? 'Mark Incomplete' : 'Mark Complete'}}
       </button>
     </ion-buttons>
+
     <ion-buttons right>
-      <button ion-button icon-right (click)="saveResponses()">
-        Save
+      <button ion-button icon-right (click)="generatePDF()">
+        Download
       </button>
     </ion-buttons>
+    
   </ion-toolbar>
 </ion-footer>
