@@ -27,6 +27,7 @@ export class MyApp {
     // {title: "Contact Raw", component: ContactPage},
     {title: "Log Out", action: 'logout'},
     {title: "Print Notebook", action: 'printNotebook'},
+    {title: "Purchase Notebook", action: 'purchaseNotebook'},
     {title: "My Account", component: AccountPage},
   ];
 
@@ -50,6 +51,10 @@ export class MyApp {
 
   printNotebook() {
     console.log("TODO")
+  }
+
+  purchaseNotebook() {
+    window.open('http://www.rednotebookproject.com/', '_system');
   }
 
   openPage(page) {
