@@ -26,17 +26,12 @@
           <ion-col>
             <h5>{{input.label}}</h5>
             <p text-wrap>{{input.description}}</p>
-            
-          </ion-col>
-          <ion-col *ngIf="input.documentUrl">
-            <a ion-button small *ngIf="input.documentUrl" target="_blank" [href]="input.documentUrl">Download Blank Document</a>
-          </ion-col>
-          <ion-col>
             <input name="file" type="file" (change)="fileChange($event, input)" placeholder="Upload Completed Doc" accept=".pdf,.doc,.docx,.jpg,.jpeg,.gif,.png">
+            <a color="secondary" icon-right ion-button small *ngIf="input.documentUrl" target="_blank" [href]="input.documentUrl">Blank <ion-icon name="document"></ion-icon></a>
+            
+            <a color="secondary" icon-right ion-button small *ngIf="input.responseValue" target="_blank" [href]="sanitize(input.responseValue)">Completed <ion-icon name="document"></ion-icon></a>
           </ion-col>
-          <ion-col *ngIf="input.responseValue">
-            <a ion-button small target="_blank" [href]="sanitize(input.responseValue)">Download Completed Document</a>
-          </ion-col>
+          
         </ion-row>
         
         <ion-datetime (ngModelChange)="saveResponse(input)" [(ngModel)]="input.responseValue" *ngIf="input.dataType == 'Date'" displayformat="MMM DD YYYY"></ion-datetime>
