@@ -29,7 +29,7 @@
 	  <ion-item>
 	    <ion-label>Data Type</ion-label>
 	    <ion-select [(ngModel)]="input.dataType">
-	      <ion-option *ngFor="let dataType of ['File', 'Short Text', 'Number', 'Percentage', 'Long Text', 'Date']">{{dataType}}</ion-option>
+	      <ion-option *ngFor="let dataType of ['File', 'Short Text', 'Number', 'Long Text', 'Date']">{{dataType}}</ion-option>
 	    </ion-select>
 	  </ion-item>
 
@@ -41,11 +41,6 @@
 	  <ion-item>
 	    <ion-label>Allow Multiple Selections?</ion-label>
 	    <ion-checkbox [(ngModel)]="input.allowMultipleChoiceSelections"></ion-checkbox>
-	  </ion-item>
-
-	  <ion-item>
-	    <ion-label>Repeatable?</ion-label>
-	    <ion-checkbox [(ngModel)]="input.repeatable"></ion-checkbox>
 	  </ion-item>
 
 	  <ion-item>

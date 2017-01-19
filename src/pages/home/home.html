@@ -29,7 +29,7 @@
       <ion-badge *ngIf="user.role == 'admin'" (click)="loadEditPart(part._id); $event.stopPropagation()" item-right><ion-icon name="create"></ion-icon></ion-badge>
       <ion-badge *ngIf="user.role == 'admin'" (click)="removePart(part._id); $event.stopPropagation()" item-right><ion-icon name="trash"></ion-icon></ion-badge>
     </ion-item-divider>
-    <ion-item *ngFor="let document of part.documents" (click)="loadDocumentShow(document._id)">{{ document.title }}</ion-item>
+    <ion-item *ngFor="let document of part.documents" (click)="loadDocumentShow(document._id)"><span [color]="document.assignment.completedAt ? '' : 'primary'">{{ document.title }}</span></ion-item>
   </ion-item-group>
 
   <ion-fab right bottom *ngIf="user.role == 'admin'">

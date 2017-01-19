@@ -15,4 +15,5 @@ export class Document {
   assignments: Assignment[];
   sections: Section[];
   sendNotification: boolean;
+  assignment: Assignment;
 }

@@ -5,9 +5,6 @@ import { StatusBar, Splashscreen } from 'ionic-native';
 import { Auth } from '../providers/auth';
 
 import { SignupPage } from '../pages/signup/signup';
-import { ContactPage } from '../pages/contact/contact';
-import { HomePage } from '../pages/home/home';
-import { AboutPage } from '../pages/about/about';
 import { AccountPage } from '../pages/account/account';
 import { TabsPage } from '../pages/tabs/tabs';
 import { SecretTokenPage } from '../pages/secret-token/secret-token';

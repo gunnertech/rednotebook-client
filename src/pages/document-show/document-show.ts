@@ -194,7 +194,7 @@ export class DocumentShowPage {
           (res) => {},
           error => {}
         );
-    }, 1000);
+    }, 100);
   }
 
   sendNotification() {

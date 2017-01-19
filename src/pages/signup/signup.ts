@@ -1,18 +1,18 @@
 import { Component } from '@angular/core';
 import { NavController, LoadingController, AlertController } from 'ionic-angular';
-import {Validators, FormBuilder, FormGroup } from '@angular/forms';
-import { Settings } from '../../app/settings';
+import { Validators, FormBuilder, FormGroup } from '@angular/forms';
+// import { Settings } from '../../app/settings';
 
 import { Auth } from '../../providers/auth';
 import { StateService } from '../../providers/state.service';
 
 import { UserService } from '../../providers/user.service';
-import { User } from '../../models/user.model';
+// import { User } from '../../models/user.model';
 
 import { State } from '../../models/state.model';
 
 
-import { TabsPage } from '../tabs/tabs';
+// import { TabsPage } from '../tabs/tabs';
 import { HomePage } from '../home/home';
 import { LoginPage } from '../login/login';
 import { SecretTokenPage } from '../secret-token/secret-token';
