@@ -31,9 +31,10 @@ export class DocumentEditPage {
     this.documentService.get(this.navParams.get('documentId'))
       .subscribe(
       	(document) => {
+          console.log("OK OK OK")
       		this.document = document; 
       		this.document.partId = document.part._id;
-      		this.document.stateId = document.state._id;
+      		this.document.stateId = document.state ? document.state._id : null;
       	},
         error =>  this.errorMessage = <any>error
       );

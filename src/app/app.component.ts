@@ -10,6 +10,7 @@ import { HomePage } from '../pages/home/home';
 import { AboutPage } from '../pages/about/about';
 import { AccountPage } from '../pages/account/account';
 import { TabsPage } from '../pages/tabs/tabs';
+import { SecretTokenPage } from '../pages/secret-token/secret-token';
 
 
 @Component({
@@ -50,7 +51,14 @@ export class MyApp {
   }
 
   printNotebook() {
-    console.log("TODO")
+    // // <a color="secondary" icon-right ion-button small *ngIf="input.responseValue" target="_blank" [href]="">Completed <ion-icon name="document"></ion-icon></a>
+    let host = window.location.href.toLowerCase().match(/notebook/) ? 'https://rednotebook.herokuapp.com' : 'http://0.0.0.0:8080';
+    this.authService.checkSecretToken()
+    .then((res) => {
+      window.open(`${host}/api/notebook/pdf?encryptionKey=${res}`, '_system');
+    }, (err) => {
+      this.nav.setRoot(SecretTokenPage);
+    });
   }
 
   purchaseNotebook() {
