@@ -15,6 +15,7 @@ import { State } from '../../models/state.model';
 // import { TabsPage } from '../tabs/tabs';
 import { HomePage } from '../home/home';
 import { LoginPage } from '../login/login';
+import { RequestPasswordResetPage } from '../request-password-reset/request-password-reset';
 import { SecretTokenPage } from '../secret-token/secret-token';
 import { AccountPage } from '../account/account';
 
@@ -107,6 +108,10 @@ export class SignupPage {
 
   launchLogin() {
 		this.navCtrl.push(LoginPage);
+  }
+
+  launchPasswordResetRequest() {
+    this.navCtrl.push(RequestPasswordResetPage); 
   }
 
   showLoginAlert(message) {

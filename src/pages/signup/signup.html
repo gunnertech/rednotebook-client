@@ -8,14 +8,6 @@
 
   <ion-row>
     <ion-col>
-<!--       <ion-card>
-        <ion-card-header>
-          Your guide when chaos happens.
-        </ion-card-header>
-        <ion-card-content>
-          <p>Insert a few more lines of welcome text here.</p>
-        </ion-card-content>
-      </ion-card> -->
 
       <ion-card>
         <ion-card-header>
@@ -65,6 +57,12 @@
   <ion-row>
     <ion-col>
       <button ion-button clear (click)="launchLogin()">Already have an account? Sign in.</button>
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col>
+      <button ion-button clear (click)="launchPasswordResetRequest()">Forgot your password? Click here.</button>
     </ion-col>
   </ion-row>
 </ion-content>

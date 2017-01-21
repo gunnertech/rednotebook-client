@@ -30,6 +30,7 @@ export class UserService {
   }
 
   private handleError (error: Response | any) {
+    console.log(error);
       // In a real world app, we might use a remote logging infrastructure
     let errMsg: string;
     if (error instanceof Response) {
@@ -61,6 +62,18 @@ export class UserService {
   		.switchMap((headers) => this.http.put(url, user, { headers: headers }))
   		.map(res => <User>res.json())
   		.catch(this.handleError);
+
+  }
+
+  requestResetToken(email: String): Observable<any> {
+
+    let url = `${Settings.API_ENDPOINT}/auth/user/requestResetToken`;
+
+    return Observable
+      .fromPromise(this.buildHeaders())
+      .switchMap((headers) => this.http.post(url, {email: email}, { headers: headers }))
+      .map(res => <any>res.json())
+      .catch(this.handleError);
 
   }
 

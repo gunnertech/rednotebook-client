@@ -27,6 +27,8 @@ import { PartEditPage } from '../pages/part-edit/part-edit';
 
 import { SectionNewPage } from '../pages/section-new/section-new';
 
+import { RequestPasswordResetPage } from '../pages/request-password-reset/request-password-reset';
+
 import { InputEditPage } from '../pages/input-edit/input-edit';
 import { AccountPage } from '../pages/account/account';
 
@@ -68,7 +70,8 @@ import { SubscriptionService } from '../providers/subscription.service';
     SectionNewPage,
     InputEditPage,
     NotificationIndexPage,
-    AccountPage
+    AccountPage,
+    RequestPasswordResetPage
   ],
   imports: [
     Ng2UploaderModule,
@@ -92,7 +95,8 @@ import { SubscriptionService } from '../providers/subscription.service';
     SectionNewPage,
     InputEditPage,
     NotificationIndexPage,
-    AccountPage
+    AccountPage,
+    RequestPasswordResetPage
   ],
   providers: [
     Auth, 

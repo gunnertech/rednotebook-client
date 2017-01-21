@@ -30,6 +30,8 @@ import { DocumentEditPage } from '../document-edit/document-edit';
 import { SectionNewPage } from '../section-new/section-new';
 import { InputEditPage } from '../input-edit/input-edit';
 
+import { Auth } from '../../providers/auth';
+
 import _ from "lodash";
 
 
@@ -45,7 +47,7 @@ export class DocumentShowPage {
   user: User;
   assignment: Assignment;
 
-  constructor(private sanitizer:DomSanitizer, public toastCtrl: ToastController, private navCtrl: NavController, private navParams: NavParams, private partService: PartService, private documentService: DocumentService, private alertCtrl: AlertController, private sectionService: SectionService, private userService: UserService, private assignmentService: AssignmentService, private inputService: InputService, private responseService: ResponseService) {
+  constructor(private sanitizer:DomSanitizer, public toastCtrl: ToastController, private navCtrl: NavController, private navParams: NavParams, private partService: PartService, private documentService: DocumentService, private alertCtrl: AlertController, private sectionService: SectionService, private userService: UserService, private assignmentService: AssignmentService, private inputService: InputService, private responseService: ResponseService, public authService: Auth) {
   	this.document = new Document();
     this.user = new User();
     this.assignment = new Assignment();
@@ -81,8 +83,14 @@ export class DocumentShowPage {
     }
   }
 
-  generatePDF() {
-    console.log("TODO");
+  printDocument() {
+    let host = window.location.href.toLowerCase().match(/notebook/) ? 'https://rednotebook.herokuapp.com' : 'http://0.0.0.0:8080';
+      this.authService.checkSecretToken()
+      .then((res) => {
+        window.open(`${host}/api/document/${this.document._id}.pdf?encryptionKey=${res}`, '_system');
+      }, (err) => {
+        
+      });
   }
 
   fetchData() {
@@ -166,6 +174,8 @@ export class DocumentShowPage {
   }
 
   saveResponses() {
+    this.presentToast("Form Saved!");
+
     this.document.sections.forEach((section) => {
       section.inputs.forEach((input) => {
         let response = this.responseFor(input);
@@ -183,6 +193,8 @@ export class DocumentShowPage {
   }
 
   saveResponse(input: Input) {
+    this.presentToast("Form Saved!");
+    
     setTimeout( () => {
       let response = this.responseFor(input);
       response.value = input.responseValue;
@@ -311,7 +323,6 @@ export class DocumentShowPage {
     reader.readAsDataURL(file);
     
     reader.onload = () => {
-      console.log(reader.result);
       input.responseValue = reader.result;
       this.saveResponse(input);
     }
