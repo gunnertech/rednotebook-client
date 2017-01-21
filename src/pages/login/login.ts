@@ -6,6 +6,7 @@ import { HomePage } from '../home/home';
 import { SignupPage } from '../signup/signup';
 import { SecretTokenPage } from '../secret-token/secret-token';
 import { AccountPage } from '../account/account';
+import { RequestPasswordResetPage } from '../request-password-reset/request-password-reset';
 
 import { UserService } from '../../providers/user.service';
 
@@ -61,6 +62,10 @@ export class LoginPage {
    
     launchSignup() {
 			this.navCtrl.push(SignupPage);
+    }
+
+    launchPasswordResetRequest() {
+      this.navCtrl.push(RequestPasswordResetPage); 
     }
    
     showLoader() {

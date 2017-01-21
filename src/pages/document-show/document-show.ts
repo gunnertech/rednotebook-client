@@ -174,7 +174,7 @@ export class DocumentShowPage {
   }
 
   saveResponses() {
-    this.presentToast("Form Saved!");
+    // this.presentToast("Form Saved!");
 
     this.document.sections.forEach((section) => {
       section.inputs.forEach((input) => {
@@ -193,7 +193,7 @@ export class DocumentShowPage {
   }
 
   saveResponse(input: Input) {
-    this.presentToast("Form Saved!");
+    // this.presentToast("Form Saved!");
     
     setTimeout( () => {
       let response = this.responseFor(input);

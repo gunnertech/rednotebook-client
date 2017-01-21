@@ -30,18 +30,10 @@ export class UserService {
   }
 
   private handleError (error: Response | any) {
-    console.log(error);
-      // In a real world app, we might use a remote logging infrastructure
-    let errMsg: string;
     if (error instanceof Response) {
-      const body = error.json() || '';
-      const err = body.error || JSON.stringify(body);
-      errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
-    } else {
-      errMsg = error.message ? error.message : error.toString();
+      error = error.json();
     }
-    console.error(errMsg);
-    return Observable.throw(errMsg);
+    return Observable.throw(error);
   }
 
   get(): Observable<User> {
@@ -72,6 +64,19 @@ export class UserService {
     return Observable
       .fromPromise(this.buildHeaders())
       .switchMap((headers) => this.http.post(url, {email: email}, { headers: headers }))
+      .map(res => <any>res.json())
+      .catch(this.handleError);
+
+  }
+
+
+  resetPassword(email: String, password: String, passwordResetToken: String): Observable<any> {
+
+    let url = `${Settings.API_ENDPOINT}/auth/user/resetPassword`;
+
+    return Observable
+      .fromPromise(this.buildHeaders())
+      .switchMap((headers) => this.http.post(url, {email: email, password: password, passwordResetToken: passwordResetToken}, { headers: headers }))
       .map(res => <any>res.json())
       .catch(this.handleError);
 

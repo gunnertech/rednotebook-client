@@ -21,12 +21,24 @@
  
         </ion-col>
     </ion-row>
- 
+
     <ion-row>
       <ion-col>
-        <button center ion-button full (click)="launchSignup()" class="create-account" clear>Don't have an account?</button>
-        <button center ion-button full (click)="launchSignup()" class="create-account" clear>Create one for free!</button>
+        <button ion-button (click)="launchSignup()" clear>Don't have an account?</button>
       </ion-col>
     </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <button ion-button (click)="launchSignup()"  clear>Create one for free!</button>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <button ion-button (click)="launchPasswordResetRequest()" clear>Forgot your password? Click here.</button>
+      </ion-col>
+    </ion-row>
+
  
 </ion-content>

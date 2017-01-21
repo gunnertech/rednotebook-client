@@ -3,6 +3,8 @@ import { NavController, NavParams } from 'ionic-angular';
 
 import { UserService } from '../../providers/user.service';
 
+import { LoginPage } from '../login/login';
+
 
 @Component({
   selector: 'page-request-password-reset',
@@ -11,22 +13,45 @@ import { UserService } from '../../providers/user.service';
 export class RequestPasswordResetPage {
 
   email: string;
-  errorMessage: string;
+  errorMessage: any;
+  passwordResetToken: string;
+  password: string;
+  submittedEmail: boolean;
 
-  constructor(private userService: UserService, public navCtrl: NavController, public navParams: NavParams) {}
+  constructor(private userService: UserService, public navCtrl: NavController, public navParams: NavParams) {
+    this.submittedEmail = false;
+    this.errorMessage = {};
+  }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad RequestPasswordResetPage');
   }
 
   requestResetToken() {
+    this.errorMessage = {};
     this.userService.requestResetToken(this.email)
     .subscribe(
       (res) => {
+        this.submittedEmail = true;
         console.log(res)
       },
-      error =>  this.errorMessage = <any>error
+      (error) =>  {
+        this.submittedEmail = true;
+      }
     );
   }
+
+  resetPassword() {
+    this.errorMessage = {};
+    this.userService.resetPassword(this.email, this.password, this.passwordResetToken)
+    .subscribe(
+      (res) => {
+        this.navCtrl.setRoot(LoginPage);
+      },
+      (error) =>  {
+        this.errorMessage = <any>error;
+        console.log(error);
+      }
+    );
+  }    
 
 }
