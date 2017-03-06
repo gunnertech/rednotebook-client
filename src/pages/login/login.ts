@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, LoadingController } from 'ionic-angular';
+import { NavController, LoadingController, AlertController } from 'ionic-angular';
 import { Auth } from '../../providers/auth';
 import { TabsPage } from '../tabs/tabs';
 import { HomePage } from '../home/home';
@@ -21,8 +21,17 @@ export class LoginPage {
   loading: any;
   errorMessage: string;
 
-  constructor(private userService: UserService, public navCtrl: NavController, public authService: Auth, public loadingCtrl: LoadingController) {
+  constructor(private userService: UserService, public navCtrl: NavController, public authService: Auth, public loadingCtrl: LoadingController, public alertCtrl: AlertController) {
 
+  }
+
+  showLoginAlert(message) {
+    let alert = this.alertCtrl.create({
+      title: 'Whooops...',
+      subTitle: message,
+      buttons: ['OK']
+    });
+    alert.present();
   }
 
   login() {
@@ -55,7 +64,7 @@ export class LoginPage {
       });
     }, (err) => {
       this.loading.dismiss();
-      console.log(err);
+      this.showLoginAlert("The login or password is incorrect. Please try again.");
     });
    
    }

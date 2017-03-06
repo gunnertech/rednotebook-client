@@ -27,6 +27,12 @@
 
       <ion-item text-wrap *ngFor="let input of section.inputs">
         <ion-badge *ngIf="user.role == 'admin'" (click)="removeInput(input._id); $event.stopPropagation()" item-left><ion-icon name="trash"></ion-icon></ion-badge>
+        <ion-badge *ngIf="user.role == 'admin'" (click)="loadInputEdit(section._id, input._id); $event.stopPropagation()" item-left><ion-icon name="create"></ion-icon></ion-badge> 
+
+        <!-- <button ion-button icon-left small full (click)="loadEditSection(section._id); $event.stopPropagation()">
+          <ion-icon name="create"></ion-icon>
+          <div>Edit</div>
+        </button> -->
 
         <ion-label stacked *ngIf="input.dataType != 'File'">
           {{input.label}}

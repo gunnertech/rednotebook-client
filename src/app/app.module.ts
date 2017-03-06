@@ -3,7 +3,7 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
-import { Ng2UploaderModule } from 'ng2-uploader';
+import { NgUploaderModule, NgUploaderService } from 'ngx-uploader';
 
 import { MyApp } from './app.component';
 
@@ -74,7 +74,7 @@ import { SubscriptionService } from '../providers/subscription.service';
     RequestPasswordResetPage
   ],
   imports: [
-    Ng2UploaderModule,
+    NgUploaderModule,
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],
@@ -113,6 +113,7 @@ import { SubscriptionService } from '../providers/subscription.service';
     ResponseService,
     FileService,
     SubscriptionService,
+    NgUploaderService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

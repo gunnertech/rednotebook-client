@@ -22,6 +22,7 @@ export class InputEditPage {
 	errorMessage: string;
 	input: Input;
 
+
   constructor(public toastCtrl: ToastController, private fileService: FileService, private storage: Storage, private navController: NavController, private navParams: NavParams, private inputService: InputService, private sectionService: SectionService) {
   	this.input = new Input();
     this.section = new Section();
@@ -32,6 +33,7 @@ export class InputEditPage {
     let inputId = this.navParams.get('inputId');
 
     if(inputId) {
+      console.log("HI JAMES")
       this.inputService.get(inputId)
         .subscribe(
           input => this.input = input,

@@ -154,9 +154,10 @@ export class DocumentShowPage {
     }) 
   }
 
-  loadInputEdit(sectionId: String) {
+  loadInputEdit(sectionId: String, inputId: String = null) {
     this.navCtrl.push(InputEditPage, {
-      sectionId: sectionId
+      sectionId: sectionId,
+      inputId: inputId
     }) 
   }
 
