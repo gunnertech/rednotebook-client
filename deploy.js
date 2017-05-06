@@ -11,7 +11,7 @@ const spawn = require( 'child_process' ).spawnSync;
 const cmd = spawn('aws', [ 's3', 'sync', 'www/',
     's3://' + process.env.S3_BUCKET_NAME + '/', '--delete'], {env: env});
 
-// console.log(process.env)
+console.log(cmd)
 
 console.log(`stderr: ${cmd.stderr.toString()}`);
 console.log(`stdout: ${cmd.stdout.toString()}`);
