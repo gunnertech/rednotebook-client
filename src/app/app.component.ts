@@ -49,7 +49,7 @@ export class MyApp {
 
   printNotebook() {
     // // <a color="secondary" icon-right ion-button small *ngIf="input.responseValue" target="_blank" [href]="">Completed <ion-icon name="document"></ion-icon></a>
-    let host = window.location.href.toLowerCase().match(/notebook/) ? 'https://rednotebook.herokuapp.com' : 'http://0.0.0.0:8080';
+    let host = window.location.href.toLowerCase().match(/notebook/) ? 'https://api.rednotebook.com' : 'http://0.0.0.0:8080';
     this.authService.checkSecretToken()
     .then((res) => {
       window.open(`${host}/api/notebook/pdf?encryptionKey=${res}`, '_system');
