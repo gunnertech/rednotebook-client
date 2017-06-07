@@ -27,6 +27,7 @@ export class SecretTokenPage {
     this.userService.get()
     .subscribe(
       (user) => {
+        console.log(user)
         if(!user.hasValidSubscription) {
           this.navCtrl.setRoot(AccountPage);
         } else {
