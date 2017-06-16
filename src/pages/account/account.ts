@@ -58,7 +58,7 @@ export class AccountPage {
   showAlert() {
     let alert = this.alertCtrl.create({
       title: 'Your Account has Expired',
-      subTitle: 'In order to access your account, you need to update your subsribtion. Rednotebook is only $.99 per month.' ,
+      subTitle: 'In order to access your account, you need to update your subsribtion. Rednotebook is only $2.99 per month.' ,
       buttons: ['OK']
     });
     this.view = 'subscription';

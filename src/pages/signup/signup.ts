@@ -53,8 +53,6 @@ export class SignupPage {
     
     this.showLoader();
 
-    
-     
     //Check if already authenticated
     this.authService.checkAuthentication()
     .then((res) => {
@@ -66,6 +64,7 @@ export class SignupPage {
           this.userService.get()
           .subscribe(
             (user) => {
+              console.log(user)
               if(!user.hasValidSubscription) {
                 this.navCtrl.setRoot(AccountPage);
               } else {
