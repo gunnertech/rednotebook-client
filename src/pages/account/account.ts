@@ -31,7 +31,7 @@ export class AccountPage {
   	this.user.local = {};
     this.user.billingInfo = {};
   	this.view = "credentials";
-    this.months = ['January', 'Feburary', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'Decemter'];
+    this.months = ['January', 'Feburary', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     this.submitting = false;
   }
 
