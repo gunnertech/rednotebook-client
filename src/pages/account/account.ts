@@ -91,6 +91,7 @@ export class AccountPage {
   	  },
     	(error) => {
     		this.submitting = false;
+        console.log(error);
     		this.presentToast("That information is not valid. Please double check and try again.");
     	}
   	);
